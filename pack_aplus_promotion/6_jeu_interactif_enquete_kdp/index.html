@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TERMINAL D'ENQUÊTE KDP : LE GÈNE DE QIN — NIVEAU COSMOS</title>
+  <style>
+    :root {
+      --bg-color: #07090E;
+      --term-bg: #0D121B;
+      --term-border: #1E2D4A;
+      --cyan-neon: #00F0FF;
+      --blue-accent: #0D74FF;
+      --amber-warn: #D97706;
+      --text-main: #E2E8F0;
+      --text-dim: #64748B;
+      --font-mono: 'Courier New', Courier, monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(0, 240, 255, 0.1) 0%, transparent 75%),
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 100% 100%, 30px 30px, 30px 30px;
+    }
+
+    .terminal-container {
+      width: 100%;
+      max-width: 960px;
+      background-color: var(--term-bg);
+      border: 2px solid var(--term-border);
+      border-radius: 12px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 240, 255, 0.15);
+      overflow: hidden;
+    }
+
+    .terminal-header {
+      background: #05070C;
+      border-bottom: 1px solid var(--term-border);
+      padding: 0.8rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .terminal-title {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--cyan-neon);
+      letter-spacing: 2px;
+      font-weight: bold;
+    }
+
+    .status-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      background-color: #DC2626;
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
+      letter-spacing: 1px;
+    }
+
+    .terminal-body {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: 480px;
+    }
+
+    .dossiers-nav {
+      background: rgba(0, 0, 0, 0.35);
+      border-right: 1px solid var(--term-border);
+      padding: 1.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .nav-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .dossier-btn {
+      width: 100%;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+      padding: 0.85rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .dossier-btn:hover, .dossier-btn.active {
+      background: rgba(0, 240, 255, 0.1);
+      border-color: var(--cyan-neon);
+      color: #FFFFFF;
+    }
+
+    .dossier-btn.active::after {
+      content: "◄";
+      color: var(--cyan-neon);
+    }
+
+    .dossier-content {
+      padding: 2rem 2.5rem;
+      position: relative;
+    }
+
+    .dossier-panel {
+      display: none;
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    .dossier-panel.active {
+      display: block;
+    }
+
+    .panel-code {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--cyan-neon);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .panel-title {
+      font-size: 1.8rem;
+      color: #FFFFFF;
+      margin-bottom: 1.25rem;
+      line-height: 1.25;
+    }
+
+    .panel-desc {
+      font-size: 1.05rem;
+      color: var(--text-main);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+
+    .panel-quote {
+      background: rgba(0, 240, 255, 0.05);
+      border-left: 3px solid var(--cyan-neon);
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      font-style: italic;
+      color: #FFFFFF;
+    }
+
+    .secret-box {
+      background: rgba(217, 119, 6, 0.1);
+      border: 1px solid rgba(217, 119, 6, 0.4);
+      border-radius: 6px;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #FCD34D;
+      margin-top: 1.5rem;
+    }
+
+    .cta-footer {
+      background: #05070C;
+      border-top: 1px solid var(--term-border);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .pricing-info {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+    }
+
+    .pricing-info strong {
+      color: #FFFFFF;
+    }
+
+    .btn-amazon {
+      background: linear-gradient(135deg, var(--blue-accent), var(--cyan-neon));
+      color: #05070C;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      display: inline-block;
+    }
+
+    .btn-amazon:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 240, 255, 0.3);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .terminal-body { grid-template-columns: 1fr; }
+      .dossiers-nav { border-right: none; border-bottom: 1px solid var(--term-border); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="terminal-container">
+    <header class="terminal-header">
+      <span class="terminal-title">SYS://VEILLE-VALMONT/ARCHIVE-QIN-221</span>
+      <span class="status-badge">ACCÈS NIVEAU COSMOS</span>
+    </header>
+
+    <div class="terminal-body">
+      <nav class="dossiers-nav" aria-label="Sélection des dossiers classifiés">
+        <span class="nav-label">DOSSIERS CLASSIFIÉS :</span>
+        <button class="dossier-btn active" data-target="panel-1">01. EXPÉDITION KUNLUN</button>
+        <button class="dossier-btn" data-target="panel-2">02. L'ANOMALIE ADN</button>
+        <button class="dossier-btn" data-target="panel-3">03. LE PROJET KOCHEI</button>
+        <button class="dossier-btn" data-target="panel-4">04. LA VEILLE VALMONT</button>
+      </nav>
+
+      <main class="dossier-content">
+        <!-- PANNEAU 1 -->
+        <div class="dossier-panel active" id="panel-1">
+          <span class="panel-code">DOSSIER #01 — CHRONOLOGIE : 221 AV. J.-C.</span>
+          <h2 class="panel-title">La caverne de l'élixir au Tibet</h2>
+          <p class="panel-desc">
+            Sur ordre du Premier Empereur de Chine Qin Shi Huang, le Capitaine Jin et Maître Wei découvrent à 4300 mètres d'altitude un sanctuaire bioluminescent abritant une vasque d'obsidienne remplie d'un liquide noir qui absorbe la lumière.
+          </p>
+          <div class="panel-quote">
+            « Le vent était le seul dieu de ce royaume. Une lame constante, si fine et si froide qu'elle semblait capable de séparer l'âme du corps... »
+          </div>
+          <div class="secret-box">
+            <strong>Rapport d'archéologie 2025 :</strong> L'inscription rupestre découverte authentiquement au Tibet atteste la véracité de cette expédition impériale.
+          </div>
+        </div>
+
+        <!-- PANNEAU 2 -->
+        <div class="dossier-panel" id="panel-2">
+          <span class="panel-code">DOSSIER #02 — CHRONOLOGIE : 2025</span>
+          <h2 class="panel-title">L'Odyssée & le séquençage interdit</h2>
+          <p class="panel-desc">
+            À bord du yacht-laboratoire de Julian Sterling, le Dr Léo Valmont — généticien marqué par le décès de sa sœur Élise d'un vieillissement accéléré (progeria) — étudie la substance extraite du Kunlun. Ses télomères possèdent une capacité d'autoréparation illimitée.
+          </p>
+          <div class="panel-quote">
+            « Ce n'est pas un médicament, Julian... C'est un parasite millénaire qui réécrit le génome pour transformer son hôte. »
+          </div>
+          <div class="secret-box">
+            <strong>Alerte biotechnologique :</strong> Sterling refuse d'arrêter le protocole et prépare sa propre injection dans la cité engloutie de Yonaguni au Japon.
+          </div>
+        </div>
+
+        <!-- PANNEAU 3 -->
+        <div class="dossier-panel" id="panel-3">
+          <span class="panel-code">DOSSIER #03 — CLASSIFICATION INTERNATIONALE</span>
+          <h2 class="panel-title">Le secret d'État : Projet Kochei</h2>
+          <p class="panel-desc">
+            Du monastère de Paro au Bhoutan jusqu'à Moscou, les services de renseignement russes surveillent l'anomalie sous le nom de code « Kochei ». La générale Anja Petrova est contrainte d'allier ses forces tactiques à celles de Léo et Samira Belkacem pour enterrer la menace sous un secret d'État d'un siècle.
+          </p>
+          <div class="panel-quote">
+            « Il n'y en avait pas qu'une... La victoire d'aujourd'hui n'est que la première bataille d'une guerre invisible. »
+          </div>
+          <div class="secret-box">
+            <strong>Niveau de secret :</strong> Secret Défense / Niveau Cosmos (Accès restreint).
+          </div>
+        </div>
+
+        <!-- PANNEAU 4 -->
+        <div class="dossier-panel" id="panel-4">
+          <span class="panel-code">DOSSIER #04 — LE SACRIFICE FINAL</span>
+          <h2 class="panel-title">La Gardienne du Silence</h2>
+          <p class="panel-desc">
+            À Yonaguni, Léo Valmont commet le sacrifice génétique ultime : s'inoculer une charge virale pour détruire l'entité primordiale. Son corps subit un vieillissement fulgurant. Après sa mort en soins palliatifs à Genève à l'âge de 26 ans, Samira Belkacem fonde « La Veille Valmont » et installe le brise-glace <em>Le Valmont</em> en Antarctique.
+          </p>
+          <div class="panel-quote">
+            « Ce n'est pas la durée qui compte. C'est l'intensité. C'est ça, la vie : l'empreinte qu'on laisse, pas le temps qu'on passe. »
+          </div>
+          <div class="secret-box">
+            <strong>Conclusion d'enquête :</strong> Découvrez l'intégralité des 20 chapitres du thriller de Franck PLATON sur Amazon KDP.
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <footer class="cta-footer">
+      <div class="pricing-info">
+        Tarifs officiels Amazon KDP : <strong>Broché 10,90 €</strong> | <strong>Relié 24,99 €</strong> | <strong>Kindle 3,99 €</strong>
+      </div>
+      <a href="https://amzn.eu/d/04xCrOHY" target="_blank" rel="noopener noreferrer" class="btn-amazon">
+        ACHETER LE LIVRE SUR AMAZON ►
+      </a>
+    </footer>
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll('.dossier-btn');
+    const panels = document.querySelectorAll('.dossier-panel');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-target');
+        buttons.forEach(b => b.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        const activePanel = document.getElementById(targetId);
+        if (activePanel) activePanel.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

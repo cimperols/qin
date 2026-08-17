@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOSSIER KOCHEI : ARCHIVES DÉCLASSIFIÉES — NIVEAU COSMOS</title>
+  <style>
+    :root {
+      --bg-dark: #06080E;
+      --card-bg: #0C111C;
+      --border-blue: #1C3352;
+      --cyan-neon: #00F0FF;
+      --blue-accent: #0D74FF;
+      --amber-warn: #D97706;
+      --red-alert: #DC2626;
+      --text-main: #E2E8F0;
+      --text-dim: #64748B;
+      --font-mono: 'Courier New', Courier, monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(217, 119, 6, 0.08) 0%, transparent 75%),
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 100% 100%, 35px 35px, 35px 35px;
+    }
+
+    .kochei-container {
+      width: 100%;
+      max-width: 920px;
+      background: var(--card-bg);
+      border: 2px solid var(--border-blue);
+      border-radius: 12px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(217, 119, 6, 0.12);
+      overflow: hidden;
+    }
+
+    .kochei-header {
+      background: #030509;
+      border-bottom: 1px solid var(--border-blue);
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .kochei-title {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--amber-warn);
+      letter-spacing: 2px;
+      font-weight: bold;
+    }
+
+    .status-badge {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      background: var(--red-alert);
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
+      letter-spacing: 1px;
+    }
+
+    .kochei-body {
+      padding: 2.5rem;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 2.5rem;
+      min-height: 450px;
+    }
+
+    .kochei-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      border-right: 1px solid var(--border-blue);
+      padding-right: 1.5rem;
+    }
+
+    .nav-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .nav-btn {
+      width: 100%;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+      padding: 0.85rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      transition: all 0.2s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-btn:hover, .nav-btn.active {
+      background: rgba(217, 119, 6, 0.12);
+      border-color: var(--amber-warn);
+      color: #FFFFFF;
+    }
+
+    .nav-btn.active::after {
+      content: "◄";
+      color: var(--amber-warn);
+    }
+
+    .kochei-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .kochei-panel {
+      display: none;
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    .kochei-panel.active { display: block; }
+
+    .panel-meta {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--amber-warn);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .panel-title {
+      font-size: 1.75rem;
+      color: #FFFFFF;
+      margin-bottom: 1.25rem;
+    }
+
+    .panel-desc {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--text-main);
+      margin-bottom: 1.5rem;
+    }
+
+    .redacted {
+      background: #1E293B;
+      color: transparent;
+      padding: 0 4px;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      user-select: none;
+    }
+
+    .redacted.revealed {
+      background: rgba(0, 240, 255, 0.15);
+      color: var(--cyan-neon);
+      font-family: var(--font-mono);
+      font-weight: bold;
+    }
+
+    .declassify-box {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-blue);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-top: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .declassify-text {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+    }
+
+    .btn-declassify {
+      background: transparent;
+      border: 1px solid var(--cyan-neon);
+      color: var(--cyan-neon);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-declassify:hover {
+      background: var(--cyan-neon);
+      color: #04060A;
+      font-weight: bold;
+    }
+
+    .cta-footer {
+      background: #030509;
+      border-top: 1px solid var(--border-blue);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .pricing-text {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+    }
+
+    .pricing-text strong { color: #FFFFFF; }
+
+    .btn-amazon {
+      background: linear-gradient(135deg, var(--blue-accent), var(--cyan-neon));
+      color: #030509;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.25s ease;
+    }
+
+    .btn-amazon:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 240, 255, 0.3);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .kochei-body { grid-template-columns: 1fr; }
+      .kochei-nav { border-right: none; border-bottom: 1px solid var(--border-blue); padding-right: 0; padding-bottom: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="kochei-container">
+    <header class="kochei-header">
+      <span class="kochei-title">FSB / DGSE — DOSSIER CLASSIFIÉ : PROJET KOCHEI</span>
+      <span class="status-badge">CLASSIFICATION : NIVEAU COSMOS</span>
+    </header>
+
+    <div class="kochei-body">
+      <aside class="kochei-nav" aria-label="Sélection des rapports d'intelligence">
+        <span class="nav-label">RAPPORTS CLASSIFIÉS :</span>
+        <button class="nav-btn active" data-target="rep-1">01. L'ORIGINE DU KUNLUN</button>
+        <button class="nav-btn" data-target="rep-2">02. LE CIBLE STERLING</button>
+        <button class="nav-btn" data-target="rep-3">03. L'ARME DE YONAGUNI</button>
+        <button class="nav-btn" data-target="rep-4">04. QUARANTAINE VOSTOK</button>
+      </aside>
+
+      <main class="kochei-content">
+        <!-- REP 1 -->
+        <div class="kochei-panel active" id="rep-1">
+          <span class="panel-meta">ARCHIVE FSB #K-221 — ARCHÉOLOGIE MILITAIRE (TIBET)</span>
+          <h2 class="panel-title">La faille de l'Aiguille du Dragon</h2>
+          <p class="panel-desc">
+            Les expéditions du Premier Empereur de Chine en 221 av. J.-C. n'ont pas rapporté du ginseng. L'inscription rupestre gravée à 4300m d'altitude atteste que l'élixir *yao* était un <span class="redacted">liquide obsidienne bioluminescent</span> conservé dans une caverne du Kunlun.
+          </p>
+          <p class="panel-desc">
+            En 2025, les agents du Kremlin ont détecté une opération d'extraction secrète menée par la milice privée du consortium <span class="redacted">Sterling Biotechnologies</span>.
+          </p>
+        </div>
+
+        <!-- REP 2 -->
+        <div class="kochei-panel" id="rep-2">
+          <span class="panel-meta">SURVEILLANCE FINANCIÈRE — YACHT L'ODYSSÉE (MÉDITERRANÉE)</span>
+          <h2 class="panel-title">Le transhumaniste Julian Sterling</h2>
+          <p class="panel-desc">
+            Milliardaire à la tête de Sterling Biotech, Julian Sterling a recruté le généticien suisse <span class="redacted">Dr Léo Valmont</span> à bord de <em>L'Odyssée</em>. Léo étudie la thérapie génique pour honorer sa sœur Élise, décédée de <span class="redacted">progeria (Hutchinson-Gilford)</span>.
+          </p>
+          <p class="panel-desc">
+            Sterling ignore l'alerte clinique : le gène n'est pas curatif, c'est un <span class="redacted">parasite cosmique primordial</span> qui prend le contrôle de la cellule hôte.
+          </p>
+        </div>
+
+        <!-- REP 3 -->
+        <div class="kochei-panel" id="rep-3">
+          <span class="panel-meta">OPÉRATION SPECIALE — ÎLES RYUKYU / YONAGUNI (JAPON)</span>
+          <h2 class="panel-title">L'alliance de la Générale Anja Petrova</h2>
+          <p class="panel-desc">
+            Pour éviter l'apocalypse biologique, le renseignement russe (Générale <span class="redacted">Anja Petrova</span>) scelle une alliance de circonstance avec Léo et sa protectrice tactique <span class="redacted">Samira Belkacem</span>.
+          </p>
+          <p class="panel-desc">
+            Dans la cité engloutie de Yonaguni à -30m, Sterling s'injecte l'obsidienne. Léo commet le sacrifice ultime en s'inoculant un <span class="redacted">sérum virale d'anticorps</span>, détruisant la graine mais subissant un vieillissement de 60 ans en quelques jours.
+          </p>
+        </div>
+
+        <!-- REP 4 -->
+        <div class="kochei-panel" id="rep-4">
+          <span class="panel-meta">PROTOCOLE PERPÉTUEL — BASE GEOTHERMIQUE VOSTOK (ANTARCTIQUE)</span>
+          <h2 class="panel-title">La Fondation « La Veille Valmont »</h2>
+          <p class="panel-desc">
+            Après la mort de Léo à Genève à 26 ans, Samira Belkacem installe le brise-glace <em>Le Valmont</em> en Antarctique. Le dossier Kochei est classifié <span class="redacted">Niveau Cosmos</span> par Moscou pour un siècle.
+          </p>
+          <p class="panel-desc">
+            Mais un dernier message chiffré transmis par Anja Petrova vient de tomber sur la fréquence polaire : <span class="redacted">« Il n'y en avait pas qu'une. »</span>
+          </p>
+        </div>
+
+        <div class="declassify-box">
+          <span class="declassify-text">Rapports partiellement censurés pour le grand public. Cliquez pour déclassifier.</span>
+          <button class="btn-declassify" id="btnRevealAll">► DÉCLASSIFIER TOUTES LES DONNÉES</button>
+        </div>
+      </main>
+    </div>
+
+    <footer class="cta-footer">
+      <div class="pricing-text">
+        Tarifs Amazon KDP de Franck PLATON : <strong>Broché 10,90 €</strong> | <strong>Relié 24,99 €</strong> | <strong>Kindle 3,99 €</strong>
+      </div>
+      <a href="https://amzn.eu/d/04xCrOHY" target="_blank" rel="noopener noreferrer" class="btn-amazon">
+        LIRE LE THRILLER SUR AMAZON ►
+      </a>
+    </footer>
+  </div>
+
+  <script>
+    const btns = document.querySelectorAll('.nav-btn');
+    const panels = document.querySelectorAll('.kochei-panel');
+
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-target');
+        btns.forEach(b => b.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        const activePanel = document.getElementById(target);
+        if (activePanel) activePanel.classList.add('active');
+      });
+    });
+
+    const btnReveal = document.getElementById('btnRevealAll');
+    let revealed = false;
+    btnReveal.addEventListener('click', () => {
+      const redactedElems = document.querySelectorAll('.redacted');
+      revealed = !revealed;
+      redactedElems.forEach(el => {
+        if (revealed) {
+          el.classList.add('revealed');
+        } else {
+          el.classList.remove('revealed');
+        }
+      });
+      btnReveal.textContent = revealed ? '◄ CENSURER LES DONNÉES' : '► DÉCLASSIFIER TOUTES LES DONNÉES';
+    });
+
+    document.querySelectorAll('.redacted').forEach(el => {
+      el.addEventListener('click', () => el.classList.toggle('revealed'));
+    });
+  </script>
+</body>
+</html>

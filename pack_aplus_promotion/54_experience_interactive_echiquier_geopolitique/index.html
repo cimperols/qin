@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ÉCHIQUIER GÉOPOLITIQUE : QUI CONTRÔLE L'IMMORTALITÉ ? | LE GÈNE DE QIN</title>
+  <style>
+    :root {
+      --bg-dark: #060912;
+      --card-bg: #0C111E;
+      --border-blue: #1C3358;
+      --cyan-neon: #00F0FF;
+      --blue-accent: #0D74FF;
+      --amber-warn: #D97706;
+      --gold-imperial: #F59E0B;
+      --red-alert: #DC2626;
+      --text-main: #E2E8F0;
+      --text-dim: #64748B;
+      --font-mono: 'Courier New', Courier, monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(0, 240, 255, 0.08) 0%, transparent 75%),
+        linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+      background-size: 100% 100%, 35px 35px, 35px 35px;
+    }
+
+    .ech-container {
+      width: 100%;
+      max-width: 960px;
+      background: var(--card-bg);
+      border: 2px solid var(--border-blue);
+      border-radius: 12px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(0, 240, 255, 0.12);
+      overflow: hidden;
+    }
+
+    .ech-header {
+      background: #030509;
+      border-bottom: 1px solid var(--border-blue);
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .ech-title {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--cyan-neon);
+      letter-spacing: 2px;
+      font-weight: bold;
+    }
+
+    .status-badge {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      background: var(--red-alert);
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
+      letter-spacing: 1px;
+    }
+
+    .ech-body {
+      padding: 2.5rem;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 2.5rem;
+      min-height: 440px;
+    }
+
+    .powers-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      border-right: 1px solid var(--border-blue);
+      padding-right: 1.5rem;
+    }
+
+    .nav-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .power-btn {
+      width: 100%;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+      padding: 0.85rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      transition: all 0.2s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .power-btn:hover, .power-btn.active {
+      background: rgba(0, 240, 255, 0.1);
+      border-color: var(--cyan-neon);
+      color: #FFFFFF;
+    }
+
+    .power-btn.active::after {
+      content: "◄";
+      color: var(--cyan-neon);
+    }
+
+    .ech-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .ech-panel {
+      display: none;
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    .ech-panel.active { display: block; }
+
+    .panel-meta {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--cyan-neon);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .panel-title {
+      font-size: 1.75rem;
+      color: #FFFFFF;
+      margin-bottom: 1.25rem;
+    }
+
+    .panel-desc {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--text-main);
+      margin-bottom: 1.5rem;
+    }
+
+    .intel-box {
+      background: rgba(0, 240, 255, 0.05);
+      border-left: 3px solid var(--cyan-neon);
+      padding: 1rem 1.25rem;
+      font-size: 0.9rem;
+      color: #FFFFFF;
+    }
+
+    .cta-footer {
+      background: #030509;
+      border-top: 1px solid var(--border-blue);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .pricing-text {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+    }
+
+    .pricing-text strong { color: #FFFFFF; }
+
+    .btn-amazon {
+      background: linear-gradient(135deg, var(--blue-accent), var(--cyan-neon));
+      color: #030509;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.25s ease;
+    }
+
+    .btn-amazon:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 240, 255, 0.3);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .ech-body { grid-template-columns: 1fr; }
+      .powers-nav { border-right: none; border-bottom: 1px solid var(--border-blue); padding-right: 0; padding-bottom: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ech-container">
+    <header class="ech-header">
+      <span class="ech-title">ÉCHIQUIER GÉOPOLITIQUE — ANALYSE DES PUISSANCES</span>
+      <span class="status-badge">NIVEAU COSMOS</span>
+    </header>
+
+    <div class="ech-body">
+      <aside class="powers-nav" aria-label="Sélection des puissances en présence">
+        <span class="nav-label">FACTIONS & PUISSANCES :</span>
+        <button class="power-btn active" data-target="pow-1">01. STERLING BIOTECH</button>
+        <button class="power-btn" data-target="pow-2">02. RENSEIGNEMENT RUSSE</button>
+        <button class="power-btn" data-target="pow-3">03. LA VEILLE VALMONT</button>
+        <button class="power-btn" data-target="pow-4">04. L'HÉRITAGE QIN</button>
+      </aside>
+
+      <main class="ech-content">
+        <!-- POW 1 -->
+        <div class="ech-panel active" id="pow-1">
+          <span class="panel-meta">FACTION #001 — CONSORTIUM PRIVÉ TRANSHUMANISTE</span>
+          <h2 class="panel-title">Sterling Biotechnologies (Yacht L'Odyssée)</h2>
+          <p class="panel-desc">
+            Dirigé par le milliardaire Julian Sterling, ce consortium agit dans les eaux internationales de Méditerranée. Fort d'un budget illimité et de milices privées, Sterling cherche à posséder le monopole de l'immortalité pour régner en dieu sur Terre.
+          </p>
+          <div class="intel-box">
+            <strong>Ressources :</strong> Mégayacht-laboratoire 118m, séquenceurs génétiques d'élite, forces paramilitaires.
+          </div>
+        </div>
+
+        <!-- POW 2 -->
+        <div class="ech-panel" id="pow-2">
+          <span class="panel-meta">FACTION #002 — SERVICES DE SÉCURITÉ D'ÉTAT</span>
+          <h2 class="panel-title">FSB & Renseignement souverain (Générale Petrova)</h2>
+          <p class="panel-desc">
+            La générale russe Anja Petrova surveille l'anomalie tibétaine sous le code « Projet Kochei » et classification absolue Niveau Cosmos. Pour elle, si une puissance privée s'empare du gène, l'équilibre des nations s'effondre.
+          </p>
+          <div class="intel-box">
+            <strong>Ressources :</strong> Satellites espions, commandos en Himalaya (Bhoutan) et censure d'État au Kremlin.
+          </div>
+        </div>
+
+        <!-- POW 3 -->
+        <div class="ech-panel" id="pow-3">
+          <span class="panel-meta">FACTION #003 — L'ALLIANCE DU SILENCE</span>
+          <h2 class="panel-title">Dr Léo Valmont & Samira Belkacem</h2>
+          <p class="panel-desc">
+            Le seul rempart moral face à l'hybris de Sterling. Léo — motivé par la mémoire d'Élise — conçoit le sérum d'anticorps pour détruire l'élixir, tandis que Samira fonde « La Veille Valmont » en Antarctique pour traquer les anomalies dormantes.
+          </p>
+          <div class="intel-box">
+            <strong>Ressources :</strong> Brise-glace Le Valmont, éthique clinique et courage sacrificiel à Yonaguni.
+          </div>
+        </div>
+
+        <!-- POW 4 -->
+        <div class="ech-panel" id="pow-4">
+          <span class="panel-meta">FACTION #004 — L'ORIGINE DU MYSTÈRE</span>
+          <h2 class="panel-title">L'Héritage impérial de Qin Shi Huang (221 av. J.-C.)</h2>
+          <p class="panel-desc">
+            Le Premier Empereur de Chine avait ordonné à ses alchimistes de rapporter le <em>yao</em> du mont Kunlun au Tibet. Face à l'horreur de la vasque d'obsidienne noire, le Capitaine Jin a choisi de dissimuler la brèche pour préserver le monde.
+          </p>
+          <div class="intel-box">
+            <strong>Ressources :</strong> Sceau impérial du Dragon et stèle rupestre authentique de 221 av. J.-C. au Tibet.
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <footer class="cta-footer">
+      <div class="pricing-text">
+        Tarifs Amazon KDP de Franck PLATON : <strong>Broché 10,90 €</strong> | <strong>Relié 24,99 €</strong> | <strong>Kindle 3,99 €</strong>
+      </div>
+      <a href="https://amzn.eu/d/04xCrOHY" target="_blank" rel="noopener noreferrer" class="btn-amazon">
+        COMMANDER LE LIVRE SUR AMAZON ►
+      </a>
+    </footer>
+  </div>
+
+  <script>
+    const btns = document.querySelectorAll('.power-btn');
+    const panels = document.querySelectorAll('.ech-panel');
+
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-target');
+        btns.forEach(b => b.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        const activePanel = document.getElementById(target);
+        if (activePanel) activePanel.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

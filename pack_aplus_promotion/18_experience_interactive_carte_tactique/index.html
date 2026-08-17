@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SATELLITE TACTIQUE : PROJET KOCHEI — LA VEILLE VALMONT</title>
+  <style>
+    :root {
+      --bg-dark: #05080E;
+      --panel-bg: #0C121E;
+      --border-blue: #1A3254;
+      --cyan-neon: #00F0FF;
+      --blue-accent: #0D74FF;
+      --amber-warn: #D97706;
+      --text-main: #E2E8F0;
+      --text-dim: #64748B;
+      --font-mono: 'Courier New', Courier, monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      background-image: 
+        radial-gradient(circle at center, rgba(0, 240, 255, 0.08) 0%, transparent 80%),
+        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px),
+        linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px);
+      background-size: 100% 100%, 40px 40px, 40px 40px;
+    }
+
+    .map-container {
+      width: 100%;
+      max-width: 960px;
+      background: var(--panel-bg);
+      border: 2px solid var(--border-blue);
+      border-radius: 12px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(0, 240, 255, 0.12);
+      overflow: hidden;
+    }
+
+    .map-header {
+      background: #030509;
+      border-bottom: 1px solid var(--border-blue);
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .map-title {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--cyan-neon);
+      letter-spacing: 2px;
+      font-weight: bold;
+    }
+
+    .status-badge {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      background: #DC2626;
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
+      letter-spacing: 1px;
+    }
+
+    .map-body {
+      padding: 2.5rem;
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 2.5rem;
+      min-height: 440px;
+    }
+
+    .targets-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      border-right: 1px solid var(--border-blue);
+      padding-right: 1.5rem;
+    }
+
+    .list-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .target-btn {
+      width: 100%;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+      padding: 0.85rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      transition: all 0.2s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .target-btn:hover, .target-btn.active {
+      background: rgba(0, 240, 255, 0.1);
+      border-color: var(--cyan-neon);
+      color: #FFFFFF;
+    }
+
+    .target-btn.active::after {
+      content: "●";
+      color: var(--cyan-neon);
+    }
+
+    .intel-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .intel-panel {
+      display: none;
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    .intel-panel.active { display: block; }
+
+    .coord-meta {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--cyan-neon);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .panel-title {
+      font-size: 1.75rem;
+      color: #FFFFFF;
+      margin-bottom: 1.25rem;
+    }
+
+    .panel-desc {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--text-main);
+      margin-bottom: 1.5rem;
+    }
+
+    .intel-box {
+      background: rgba(217, 119, 6, 0.1);
+      border: 1px solid rgba(217, 119, 6, 0.4);
+      border-radius: 6px;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #FCD34D;
+    }
+
+    .cta-footer {
+      background: #030509;
+      border-top: 1px solid var(--border-blue);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .pricing-text {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+    }
+
+    .pricing-text strong { color: #FFFFFF; }
+
+    .btn-amazon {
+      background: linear-gradient(135deg, var(--blue-accent), var(--cyan-neon));
+      color: #030509;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.25s ease;
+    }
+
+    .btn-amazon:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 240, 255, 0.3);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .map-body { grid-template-columns: 1fr; }
+      .targets-list { border-right: none; border-bottom: 1px solid var(--border-blue); padding-right: 0; padding-bottom: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="map-container">
+    <header class="map-header">
+      <span class="map-title">SATELLITE ORBITAL — RÉSEAU DE LA VEILLE VALMONT</span>
+      <span class="status-badge">ALERTE KOCHEI : ACTIVÉE</span>
+    </header>
+
+    <div class="map-body">
+      <aside class="targets-list" aria-label="Sélection des coordonnées géographiques">
+        <span class="list-label">COORDONNÉES CIBLES :</span>
+        <button class="target-btn active" data-target="coord-1">[36°00'N 91°00'E] KUNLUN (TIBET)</button>
+        <button class="target-btn" data-target="coord-2">[38°50'N 05°00'E] L'ODYSSÉE (MER)</button>
+        <button class="target-btn" data-target="coord-3">[27°25'N 89°25'E] PARO (BHOUTAN)</button>
+        <button class="target-btn" data-target="coord-4">[24°27'N 122°59'E] YONAGUNI (-30M)</button>
+        <button class="target-btn" data-target="coord-5">[77°51'S 166°40'E] VOSTOK (POLAIRE)</button>
+      </aside>
+
+      <main class="intel-content">
+        <!-- COORD 1 -->
+        <div class="intel-panel active" id="coord-1">
+          <span class="coord-meta">SECTEUR 01 — MASSIF DU KUNLUN (TIBET — ALTITUDE 4300M)</span>
+          <h2 class="panel-title">La faille bioluminescente de 221 av. J.-C.</h2>
+          <p class="panel-desc">
+            Point d'origine historique. C'est ici que l'expédition d'alchimistes de l'Empereur Qin Shi Huang a découvert la vasque d'obsidienne noire remplie d'élixir de longue vie. En 2025, une expédition d'extraction commanditée par Sterling Biotech réveille la caverne.
+          </p>
+          <div class="intel-box">
+            <strong>Donnée archéologique 2025 :</strong> L'inscription rupestre gravée par ordre de Qin Shi Huang est une découverte historique authentique.
+          </div>
+        </div>
+
+        <!-- COORD 2 -->
+        <div class="intel-panel" id="coord-2">
+          <span class="coord-meta">SECTEUR 02 — MER MÉDITERRANÉE (YACHT L'ODYSSÉE)</span>
+          <h2 class="panel-title">Le huis clos du Dr Léo Valmont</h2>
+          <p class="panel-desc">
+            Position mobile de <em>L'Odyssée</em>, navire-laboratoire de Julian Sterling. Léo Valmont y séquence l'ADN antique et découvre son pouvoir de réparation des télomères, mais aussi sa véritable nature : une graine parasitaire conçue pour transformer son hôte.
+          </p>
+          <div class="intel-box">
+            <strong>Enjeu clinique :</strong> Léo est motivé par la promesse faite à sa sœur Élise, décédée de la progeria.
+          </div>
+        </div>
+
+        <!-- COORD 3 -->
+        <div class="intel-panel" id="coord-3">
+          <span class="coord-meta">SECTEUR 03 — MONASTÈRE DE PARO (HIMALAYA / BHOUTAN)</span>
+          <h2 class="panel-title">Le secret d'État du Général Anja Petrova</h2>
+          <p class="panel-desc">
+            Forteresse himalayenne abritant des moines affectés par la rémanence sonore du minerai. C'est sur ce théâtre d'opérations que les services secrets russes (Projet Kochei / Niveau Cosmos) scellent un pacte tactique avec Léo et Samira Belkacem.
+          </p>
+          <div class="intel-box">
+            <strong>Niveau de secret :</strong> Classifié « Niveau Cosmos » par Moscou.
+          </div>
+        </div>
+
+        <!-- COORD 4 -->
+        <div class="intel-panel" id="coord-4">
+          <span class="coord-meta">SECTEUR 04 — ÎLES RYUKYU / YONAGUNI (JAPON — PROFONDEUR -30M)</span>
+          <h2 class="panel-title">Les pyramides sous-marines et le climax</h2>
+          <p class="panel-desc">
+            Au cœur des escaliers cyclopéens engloutis de Yonaguni, Sterling s'injecte le sérum primordiale pour devenir un dieu. Pour stopper la contagion biologique, Léo s'inocule la charge virale d'anticorps : un sacrifice qui le fera vieillir de 64 ans en quelques jours.
+          </p>
+          <div class="intel-box">
+            <strong>Affrontement final :</strong> Une scène de plongée sous-marine à très haute tension.
+          </div>
+        </div>
+
+        <!-- COORD 5 -->
+        <div class="intel-panel" id="coord-5">
+          <span class="coord-meta">SECTEUR 05 — OASIS GÉOTHERMIQUE DE VOSTOK (ANTARCTIQUE)</span>
+          <h2 class="panel-title">La Veille Valmont et le message chiffré</h2>
+          <p class="panel-desc">
+            Après le décès de Léo en soins palliatifs à Genève à 26 ans, Samira Belkacem fonde « La Veille Valmont » et installe le brise-glace <em>Le Valmont</em> dans l'enfer blanc polaire. Un ultime message crypté lui parvient : <em>« Il n'y en avait pas qu'une. »</em>
+          </p>
+          <div class="intel-box">
+            <strong>Cliffhanger final :</strong> D'autres anomalies somnolent sous la planète.
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <footer class="cta-footer">
+      <div class="pricing-text">
+        Tarifs Amazon KDP de Franck PLATON : <strong>Broché 10,90 €</strong> | <strong>Relié 24,99 €</strong> | <strong>Kindle 3,99 €</strong>
+      </div>
+      <a href="https://amzn.eu/d/04xCrOHY" target="_blank" rel="noopener noreferrer" class="btn-amazon">
+        ACHETER LE LIVRE SUR AMAZON ►
+      </a>
+    </footer>
+  </div>
+
+  <script>
+    const btns = document.querySelectorAll('.target-btn');
+    const panels = document.querySelectorAll('.intel-panel');
+
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-target');
+        btns.forEach(b => b.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        const activePanel = document.getElementById(target);
+        if (activePanel) activePanel.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

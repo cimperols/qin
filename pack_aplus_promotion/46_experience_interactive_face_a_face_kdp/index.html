@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FACE-À-FACE KDP : LÉO VALMONT VS JULIAN STERLING | LE GÈNE DE QIN</title>
+  <style>
+    :root {
+      --bg-dark: #070914;
+      --card-bg: #0C1222;
+      --border-blue: #1C3358;
+      --cyan-neon: #00F0FF;
+      --blue-accent: #0D74FF;
+      --amber-warn: #D97706;
+      --gold-imperial: #F59E0B;
+      --red-alert: #DC2626;
+      --text-main: #E2E8F0;
+      --text-dim: #64748B;
+      --font-mono: 'Courier New', Courier, monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(0, 240, 255, 0.08) 0%, transparent 75%),
+        linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+      background-size: 100% 100%, 35px 35px, 35px 35px;
+    }
+
+    .dual-container {
+      width: 100%;
+      max-width: 960px;
+      background: var(--card-bg);
+      border: 2px solid var(--border-blue);
+      border-radius: 12px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(0, 240, 255, 0.12);
+      overflow: hidden;
+    }
+
+    .dual-header {
+      background: #030509;
+      border-bottom: 1px solid var(--border-blue);
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .dual-title {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--cyan-neon);
+      letter-spacing: 2px;
+      font-weight: bold;
+    }
+
+    .status-badge {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      background: var(--red-alert);
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
+      letter-spacing: 1px;
+    }
+
+    .dual-body {
+      padding: 2.5rem;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 2.5rem;
+      min-height: 440px;
+    }
+
+    .duels-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      border-right: 1px solid var(--border-blue);
+      padding-right: 1.5rem;
+    }
+
+    .nav-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .duel-btn {
+      width: 100%;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+      padding: 0.85rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      transition: all 0.2s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .duel-btn:hover, .duel-btn.active {
+      background: rgba(0, 240, 255, 0.1);
+      border-color: var(--cyan-neon);
+      color: #FFFFFF;
+    }
+
+    .duel-btn.active::after {
+      content: "●";
+      color: var(--cyan-neon);
+    }
+
+    .dual-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .dual-panel {
+      display: none;
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    .dual-panel.active { display: block; }
+
+    .panel-meta {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--cyan-neon);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .panel-title {
+      font-size: 1.75rem;
+      color: #FFFFFF;
+      margin-bottom: 1.25rem;
+    }
+
+    .split-confrontation {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-side {
+      background: rgba(0, 240, 255, 0.08);
+      border: 1px solid rgba(0, 240, 255, 0.4);
+      border-radius: 8px;
+      padding: 1.25rem;
+    }
+
+    .antag-side {
+      background: rgba(220, 38, 38, 0.08);
+      border: 1px solid rgba(220, 38, 38, 0.4);
+      border-radius: 8px;
+      padding: 1.25rem;
+    }
+
+    .side-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .hero-side .side-label { color: var(--cyan-neon); }
+    .antag-side .side-label { color: #F87171; }
+
+    .side-quote {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      font-style: italic;
+      color: #FFFFFF;
+      margin-bottom: 0.75rem;
+    }
+
+    .side-desc {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+    }
+
+    .lore-box {
+      background: rgba(255, 255, 255, 0.04);
+      border-left: 3px solid var(--amber-warn);
+      padding: 1rem 1.25rem;
+      font-size: 0.9rem;
+      color: #FFFFFF;
+    }
+
+    .cta-footer {
+      background: #030509;
+      border-top: 1px solid var(--border-blue);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .pricing-text {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+    }
+
+    .pricing-text strong { color: #FFFFFF; }
+
+    .btn-amazon {
+      background: linear-gradient(135deg, var(--blue-accent), var(--cyan-neon));
+      color: #030509;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.25s ease;
+    }
+
+    .btn-amazon:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 240, 255, 0.3);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .dual-body { grid-template-columns: 1fr; }
+      .split-confrontation { grid-template-columns: 1fr; }
+      .duels-nav { border-right: none; border-bottom: 1px solid var(--border-blue); padding-right: 0; padding-bottom: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dual-container">
+    <header class="dual-header">
+      <span class="dual-title">FACE-À-FACE TACTIQUE — LE GÈNE DE QIN</span>
+      <span class="status-badge">CONFRONTATION IDÉOLOGIQUE</span>
+    </header>
+
+    <div class="dual-body">
+      <aside class="duels-nav" aria-label="Sélection des duels idéologiques">
+        <span class="nav-label">CONFRONTATIONS :</span>
+        <button class="duel-btn active" data-target="duel-1">01. LÉO VS STERLING</button>
+        <button class="duel-btn" data-target="duel-2">02. SAMIRA VS ANJA</button>
+        <button class="duel-btn" data-target="duel-3">03. QIN VS CAPITAINE JIN</button>
+        <button class="duel-btn" data-target="duel-4">04. SCIENCE VS MYTHE</button>
+      </aside>
+
+      <main class="dual-content">
+        <!-- DUEL 1 -->
+        <div class="dual-panel active" id="duel-1">
+          <span class="panel-meta">DUEL #01 — THÉRAPIE GÉNIQUE & IMMORTALITÉ (L'ODYSSÉE)</span>
+          <h2 class="panel-title">L'Éthique Clinique vs L'Hybris Prométhéen</h2>
+          <div class="split-confrontation">
+            <div class="hero-side">
+              <span class="side-label">► DR LÉO VALMONT (LE MÉDECIN) :</span>
+              <p class="side-quote">« Ce n'est pas la durée qui compte. C'est l'intensité. En voulant corriger Dieu pour guérir ma sœur Élise, j'ai réveillé un parasite. Je donnerai ma propre vie pour que l'homme reste mortel. »</p>
+              <p class="side-desc">Arme tactique : Sérum viral d'anticorps à Yonaguni.</p>
+            </div>
+            <div class="antag-side">
+              <span class="side-label">► JULIAN STERLING (LE MILLIARDAIRE) :</span>
+              <p class="side-quote">« Pourquoi mourir quand on peut posséder la Terre ? L'évolution exige des sacrifices et s'il doit y avoir un dieu dans cette nouvelle création, ce sera moi. »</p>
+              <p class="side-desc">Arme tactique : Consortium biotechnologique et milices.</p>
+            </div>
+          </div>
+          <div class="lore-box">
+            <strong>Le cœur du thriller :</strong> Deux visions irréconciliables de l'avenir humain qui s'affrontent sans temps mort.
+          </div>
+        </div>
+
+        <!-- DUEL 2 -->
+        <div class="dual-panel" id="duel-2">
+          <span class="panel-meta">DUEL #02 — ESPIONNAGE & GUERRE ASYMÉTRIQUE</span>
+          <h2 class="panel-title">La Loyauté Martiale vs Le Secret d'État</h2>
+          <div class="split-confrontation">
+            <div class="hero-side">
+              <span class="side-label">► SAMIRA BELKACEM (LA GARDIENNE) :</span>
+              <p class="side-quote">« C'est ma mission maintenant. Veiller sur toi. Après la mort de Léo, j'ai installé le brise-glace Le Valmont en Antarctique. On reste jusqu'à ce que je sois sûre qu'il n'y a rien. »</p>
+              <p class="side-desc">Arme tactique : La Veille Valmont et surveillance polaire.</p>
+            </div>
+            <div class="antag-side">
+              <span class="side-label">► GÉNÉRALE ANJA PETROVA (SERVICES RUSSES) :</span>
+              <p class="side-quote">« J'ai classé le dossier Kochei au niveau absolu Cosmos pour un siècle. Mais ne t'y trompe pas, Samira : il n'y en avait pas qu'une. »</p>
+              <p class="side-desc">Arme tactique : Projet Kochei / Renseignement Niveau Cosmos.</p>
+            </div>
+          </div>
+          <div class="lore-box">
+            <strong>L'alliance de l'ombre :</strong> Quand la sécurité d'État scelle un pacte avec une ex-mercenaire.
+          </div>
+        </div>
+
+        <!-- DUEL 3 -->
+        <div class="dual-panel" id="duel-3">
+          <span class="panel-meta">DUEL #03 — HISTOIRE ANTIQUE & TIBET (221 AV. J.-C.)</span>
+          <h2 class="panel-title">L'Empereur Immortel vs Le Soldat Réaliste</h2>
+          <div class="split-confrontation">
+            <div class="hero-side">
+              <span class="side-label">► CAPITAINE JIN (GARDE IMPÉRIALE) :</span>
+              <p class="side-quote">« Maître Wei y voit le consentement des cieux... Moi, je n'y vois qu'un tombeau à ciel ouvert. Le vide n'est pas un accueil, c'est un avertissement. »</p>
+              <p class="side-desc">Refuse de rapporter l'obsidienne noire de la caverne.</p>
+            </div>
+            <div class="antag-side">
+              <span class="side-label">► EMPEREUR QIN SHI HUANG (DYNASTIE QIN) :</span>
+              <p class="side-quote">« Ordonne à mes alchimistes de rapporter le yao du Kunlun. Je serai l'empereur éternel des Dix Mille Années. »</p>
+              <p class="side-desc">Meurt empoisonné aux pilules de mercure en 210 av. J.-C.</p>
+            </div>
+          </div>
+          <div class="lore-box">
+            <strong>Fait archéologique :</strong> L'inscription rupestre de 221 av. J.-C. découverte au Tibet atteste l'expédition.
+          </div>
+        </div>
+
+        <!-- DUEL 4 -->
+        <div class="dual-panel" id="duel-4">
+          <span class="panel-meta">DUEL #04 — RÉALITÉ CLINIQUE VS TECHNO-THRILLER</span>
+          <h2 class="panel-title">La Précision Médicale vs L'Aventure Globale</h2>
+          <div class="split-confrontation">
+            <div class="hero-side">
+              <span class="side-label">► RIGUEUR DOCUMENTAIRE (FRANCK PLATON) :</span>
+              <p class="side-quote">« Séquençage ADN, progeria, télomérase, rétrovirus et ruines réelles de Yonaguni par 30m de fond. La science est vraie. »</p>
+              <p class="side-desc">Dans la tradition littéraire de Michael Crichton et James Rollins.</p>
+            </div>
+            <div class="antag-side">
+              <span class="side-label">► RYTHME CINÉMATOGRAPHIQUE :</span>
+              <p class="side-quote">« 53 000 mots d'action, de rebondissements géopolitiques et d'enquête secrète sans aucun temps mort. »</p>
+              <p class="side-desc">Un blockbuster à dévorer d'une traite sur Amazon KDP.</p>
+            </div>
+          </div>
+          <div class="lore-box">
+            <strong>Libertés de lecture :</strong> Éditions officielles en Broché 10,90 €, Relié 24,99 € et Kindle 3,99 €.
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <footer class="cta-footer">
+      <div class="pricing-text">
+        Tarifs Amazon KDP de Franck PLATON : <strong>Broché 10,90 €</strong> | <strong>Relié 24,99 €</strong> | <strong>Kindle 3,99 €</strong>
+      </div>
+      <a href="https://amzn.eu/d/04xCrOHY" target="_blank" rel="noopener noreferrer" class="btn-amazon">
+        COMMANDER LE LIVRE SUR AMAZON ►
+      </a>
+    </footer>
+  </div>
+
+  <script>
+    const btns = document.querySelectorAll('.duel-btn');
+    const panels = document.querySelectorAll('.dual-panel');
+
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-target');
+        btns.forEach(b => b.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        const activePanel = document.getElementById(target);
+        if (activePanel) activePanel.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ENCYCLOPÉDIE DE LA VEILLE VALMONT — BASE DE DONNÉES KDP</title>
+  <style>
+    :root {
+      --bg-dark: #07090F;
+      --card-bg: #0D1322;
+      --border-blue: #1C3358;
+      --cyan-neon: #00F0FF;
+      --blue-accent: #0D74FF;
+      --amber-warn: #D97706;
+      --red-alert: #DC2626;
+      --text-main: #E2E8F0;
+      --text-dim: #64748B;
+      --font-mono: 'Courier New', Courier, monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(0, 240, 255, 0.08) 0%, transparent 75%),
+        linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+      background-size: 100% 100%, 32px 32px, 32px 32px;
+    }
+
+    .enc-container {
+      width: 100%;
+      max-width: 960px;
+      background: var(--card-bg);
+      border: 2px solid var(--border-blue);
+      border-radius: 12px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(0, 240, 255, 0.12);
+      overflow: hidden;
+    }
+
+    .enc-header {
+      background: #030509;
+      border-bottom: 1px solid var(--border-blue);
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .enc-title {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--cyan-neon);
+      letter-spacing: 2px;
+      font-weight: bold;
+    }
+
+    .status-badge {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      background: var(--blue-accent);
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
+      letter-spacing: 1px;
+    }
+
+    .enc-body {
+      padding: 2.5rem;
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 2.5rem;
+      min-height: 450px;
+    }
+
+    .entries-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      border-right: 1px solid var(--border-blue);
+      padding-right: 1.5rem;
+    }
+
+    .nav-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .entry-btn {
+      width: 100%;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+      padding: 0.85rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      transition: all 0.2s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .entry-btn:hover, .entry-btn.active {
+      background: rgba(0, 240, 255, 0.1);
+      border-color: var(--cyan-neon);
+      color: #FFFFFF;
+    }
+
+    .entry-btn.active::after {
+      content: "●";
+      color: var(--cyan-neon);
+    }
+
+    .enc-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .enc-panel {
+      display: none;
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    .enc-panel.active { display: block; }
+
+    .panel-meta {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--cyan-neon);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .panel-title {
+      font-size: 1.75rem;
+      color: #FFFFFF;
+      margin-bottom: 1.25rem;
+    }
+
+    .panel-desc {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--text-main);
+      margin-bottom: 1.5rem;
+    }
+
+    .lore-box {
+      background: rgba(0, 240, 255, 0.05);
+      border-left: 3px solid var(--cyan-neon);
+      padding: 1rem 1.25rem;
+      font-size: 0.9rem;
+      color: #FFFFFF;
+    }
+
+    .cta-footer {
+      background: #030509;
+      border-top: 1px solid var(--border-blue);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .pricing-text {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+    }
+
+    .pricing-text strong { color: #FFFFFF; }
+
+    .btn-amazon {
+      background: linear-gradient(135deg, var(--blue-accent), var(--cyan-neon));
+      color: #030509;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.25s ease;
+    }
+
+    .btn-amazon:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 240, 255, 0.3);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .enc-body { grid-template-columns: 1fr; }
+      .entries-nav { border-right: none; border-bottom: 1px solid var(--border-blue); padding-right: 0; padding-bottom: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="enc-container">
+    <header class="enc-header">
+      <span class="enc-title">ENCYCLOPÉDIE DE LA VEILLE VALMONT — BASE DE DONNÉES</span>
+      <span class="status-badge">ARCHIVES DÉCLASSIFIÉES</span>
+    </header>
+
+    <div class="enc-body">
+      <aside class="entries-nav" aria-label="Sélection des articles encyclopédiques">
+        <span class="nav-label">ARTICLES RÉPERTORIÉS :</span>
+        <button class="entry-btn active" data-target="item-1">01. LA STÈLE DU KUNLUN</button>
+        <button class="entry-btn" data-target="item-2">02. LE YACHT L'ODYSSÉE</button>
+        <button class="entry-btn" data-target="item-3">03. LE MONASTÈRE DE PARO</button>
+        <button class="entry-btn" data-target="item-4">04. YONAGUNI (-30M)</button>
+        <button class="entry-btn" data-target="item-5">05. LE BRISE-GLACE VALMONT</button>
+      </aside>
+
+      <main class="enc-content">
+        <!-- ITEM 1 -->
+        <div class="enc-panel active" id="item-1">
+          <span class="panel-meta">ARTICLE #001 — ARCHÉOLOGIE & CHINE IMPÉRIALE</span>
+          <h2 class="panel-title">La stèle rupestre de 221 av. J.-C.</h2>
+          <p class="panel-desc">
+            Inscription gravée par les alchimistes de l'Empereur Qin Shi Huang sur le plateau tibétain du Kunlun à 4300 mètres d'altitude. Cette découverte archéologique réelle (authentifiée en 2025) atteste l'ordre impérial d'extraire l'élixir <em>yao</em>.
+          </p>
+          <div class="lore-box">
+            Dans le roman de Franck Platon, la stèle mène à la caverne souterraine d'obsidienne noire.
+          </div>
+        </div>
+
+        <!-- ITEM 2 -->
+        <div class="enc-panel" id="item-2">
+          <span class="panel-meta">ARTICLE #002 — TECHNOLOGIE & HUIS CLOS MARITIME</span>
+          <h2 class="panel-title">Le superyacht L'Odyssée</h2>
+          <p class="panel-desc">
+            Navire océanographique de 118 mètres appartenant à Julian Sterling. Il héberge le laboratoire clinique de pointe où le Dr Léo Valmont séquence l'ADN antique et réalise l'autoréparation infinie des télomères.
+          </p>
+          <div class="lore-box">
+            Théâtre d'un huis clos oppressant entre Léo, Samira Belkacem et les milices privées de Sterling.
+          </div>
+        </div>
+
+        <!-- ITEM 3 -->
+        <div class="enc-panel" id="item-3">
+          <span class="panel-meta">ARTICLE #003 — GÉOPOLITIQUE & RENSEIGNEMENT</span>
+          <h2 class="panel-title">Le monastère de Paro au Bhoutan</h2>
+          <p class="panel-desc">
+            Forteresse retranchée sur une falaise himalayenne où les moines subissent la rémanence sonore du minerai d'obsidienne. C'est ici que s'opère le pacte d'espionnage avec la générale russe Anja Petrova (Projet Kochei / Niveau Cosmos).
+          </p>
+          <div class="lore-box">
+            Le point de bascule géopolitique où Moscou et l'Occident décident d'enterrer l'affaire.
+          </div>
+        </div>
+
+        <!-- ITEM 4 -->
+        <div class="enc-panel" id="item-4">
+          <span class="panel-meta">ARTICLE #004 — ARCHÉOLOGIE SOUS-MARINE & CLIMAX</span>
+          <h2 class="panel-title">La Cité Engloutie de Yonaguni</h2>
+          <p class="panel-desc">
+            Monument monolithique submergé par 30 mètres de fond dans l'archipel des îles Ryukyu au Japon. Cette énigme archéologique réelle abrite la seconde faille bioluminescente du parasite primordial.
+          </p>
+          <div class="lore-box">
+            Lieu de l'apothéose de Julian Sterling et du sacrifice génétique du Dr Léo Valmont.
+          </div>
+        </div>
+
+        <!-- ITEM 5 -->
+        <div class="enc-panel" id="item-5">
+          <span class="panel-meta">ARTICLE #005 — SURVEILLANCE POLAIRE & ÉPILOGUE</span>
+          <h2 class="panel-title">Le brise-glace Le Valmont</h2>
+          <p class="panel-desc">
+            Navire de recherche rouge et noir armé par Samira Belkacem (« La Dompteuse d'Ombres ») en Antarctique pour surveiller perpétuellement l'oasis géothermique de Vostok après la mort de Léo à Genève à 26 ans.
+          </p>
+          <div class="lore-box">
+            C'est sur sa passerelle que retentit le cliffhanger du général russe : <em>« Il n'y en avait pas qu'une. »</em>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <footer class="cta-footer">
+      <div class="pricing-text">
+        Tarifs Amazon KDP de Franck PLATON : <strong>Broché 10,90 €</strong> | <strong>Relié 24,99 €</strong> | <strong>Kindle 3,99 €</strong>
+      </div>
+      <a href="https://amzn.eu/d/04xCrOHY" target="_blank" rel="noopener noreferrer" class="btn-amazon">
+        COMMANDER SUR AMAZON ►
+      </a>
+    </footer>
+  </div>
+
+  <script>
+    const btns = document.querySelectorAll('.entry-btn');
+    const panels = document.querySelectorAll('.enc-panel');
+
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-target');
+        btns.forEach(b => b.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        const activePanel = document.getElementById(target);
+        if (activePanel) activePanel.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

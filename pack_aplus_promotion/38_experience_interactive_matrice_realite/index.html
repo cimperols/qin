@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MATRICE DE VÉRITÉ : SCIENCE VS FICTION | LE GÈNE DE QIN</title>
+  <style>
+    :root {
+      --bg-dark: #060912;
+      --card-bg: #0D1322;
+      --border-blue: #1C3358;
+      --cyan-neon: #00F0FF;
+      --blue-accent: #0D74FF;
+      --amber-warn: #D97706;
+      --green-fact: #10B981;
+      --text-main: #E2E8F0;
+      --text-dim: #64748B;
+      --font-mono: 'Courier New', Courier, monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.08) 0%, transparent 75%),
+        linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+      background-size: 100% 100%, 35px 35px, 35px 35px;
+    }
+
+    .matrix-container {
+      width: 100%;
+      max-width: 960px;
+      background: var(--card-bg);
+      border: 2px solid var(--border-blue);
+      border-radius: 12px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(0, 240, 255, 0.12);
+      overflow: hidden;
+    }
+
+    .matrix-header {
+      background: #030509;
+      border-bottom: 1px solid var(--border-blue);
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .matrix-title {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--cyan-neon);
+      letter-spacing: 2px;
+      font-weight: bold;
+    }
+
+    .status-badge {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      background: var(--green-fact);
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
+      letter-spacing: 1px;
+    }
+
+    .matrix-body {
+      padding: 2.5rem;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 2.5rem;
+      min-height: 460px;
+    }
+
+    .topics-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      border-right: 1px solid var(--border-blue);
+      padding-right: 1.5rem;
+    }
+
+    .nav-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .topic-btn {
+      width: 100%;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+      padding: 0.85rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      transition: all 0.2s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .topic-btn:hover, .topic-btn.active {
+      background: rgba(16, 185, 129, 0.12);
+      border-color: var(--green-fact);
+      color: #FFFFFF;
+    }
+
+    .topic-btn.active::after {
+      content: "●";
+      color: var(--green-fact);
+    }
+
+    .matrix-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .matrix-panel {
+      display: none;
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    .matrix-panel.active { display: block; }
+
+    .panel-meta {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--green-fact);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .panel-title {
+      font-size: 1.75rem;
+      color: #FFFFFF;
+      margin-bottom: 1.25rem;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .fact-card {
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      border-radius: 8px;
+      padding: 1.25rem;
+    }
+
+    .fiction-card {
+      background: rgba(0, 240, 255, 0.08);
+      border: 1px solid rgba(0, 240, 255, 0.4);
+      border-radius: 8px;
+      padding: 1.25rem;
+    }
+
+    .card-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .fact-card .card-label { color: var(--green-fact); }
+    .fiction-card .card-label { color: var(--cyan-neon); }
+
+    .card-text {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text-main);
+    }
+
+    .author-note {
+      background: rgba(255, 255, 255, 0.04);
+      border-left: 3px solid var(--amber-warn);
+      padding: 1rem 1.25rem;
+      font-size: 0.9rem;
+      color: #FFFFFF;
+    }
+
+    .cta-footer {
+      background: #030509;
+      border-top: 1px solid var(--border-blue);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .pricing-text {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+    }
+
+    .pricing-text strong { color: #FFFFFF; }
+
+    .btn-amazon {
+      background: linear-gradient(135deg, var(--blue-accent), var(--cyan-neon));
+      color: #030509;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.25s ease;
+    }
+
+    .btn-amazon:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 240, 255, 0.3);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .matrix-body { grid-template-columns: 1fr; }
+      .comparison-grid { grid-template-columns: 1fr; }
+      .topics-nav { border-right: none; border-bottom: 1px solid var(--border-blue); padding-right: 0; padding-bottom: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="matrix-container">
+    <header class="matrix-header">
+      <span class="matrix-title">MATRICE DE VÉRITÉ — SCIENCE RÉELLE VS TECHNO-THRILLER</span>
+      <span class="status-badge">DOCUMENTATION VÉRIFIÉE</span>
+    </header>
+
+    <div class="matrix-body">
+      <aside class="topics-nav" aria-label="Sélection des dossiers scientifiques">
+        <span class="nav-label">SUJETS ANALYSÉS :</span>
+        <button class="topic-btn active" data-target="top-1">01. L'INSCRIPTION TIBET</button>
+        <button class="topic-btn" data-target="top-2">02. PROGERIA & ADN</button>
+        <button class="topic-btn" data-target="top-3">03. LA TÉLOMÉRASE</button>
+        <button class="topic-btn" data-target="top-4">04. YONAGUNI (-30M)</button>
+        <button class="topic-btn" data-target="top-5">05. VOSTOK ANTARCTIQUE</button>
+      </aside>
+
+      <main class="matrix-content">
+        <!-- TOP 1 -->
+        <div class="matrix-panel active" id="top-1">
+          <span class="panel-meta">DOSSIER #001 — ARCHÉOLOGIE & HISTOIRE DU TIBET</span>
+          <h2 class="panel-title">L'édit de l'Empereur Qin Shi Huang (221 av. J.-C.)</h2>
+          <div class="comparison-grid">
+            <div class="fact-card">
+              <span class="card-label">✓ FAIT RÉEL VÉRIFIÉ (2025) :</span>
+              <p class="card-text">
+                En 2025, les archéologues ont authentifié une stèle rupestre gravée à 4300m d'altitude au Tibet par ordre du Premier Empereur de Chine, intimant à ses alchimistes de collecter le <em>yao</em> (élixir de vie).
+              </p>
+            </div>
+            <div class="fiction-card">
+              <span class="card-label">★ EXTRAPOLATION DANS LE ROMAN :</span>
+              <p class="card-text">
+                Dans <em>Le Gène de Qin</em>, Franck Platon y situe la caverne d'obsidienne noire. Le Capitaine Jin refuse d'en rapporter la malédiction à son empereur, qui finit par mourir d'empoisonnement au mercure.
+              </p>
+            </div>
+          </div>
+          <div class="author-note">
+            <strong>Note de Franck PLATON :</strong> C'est l'ancrage réel de cette expédition dans l'Himalaya qui m'a inspiré le socle historique du roman.
+          </div>
+        </div>
+
+        <!-- TOP 2 -->
+        <div class="matrix-panel" id="top-2">
+          <span class="panel-meta">DOSSIER #002 — GÉNÉTIQUE CLINIQUE & PATHOLOGIE</span>
+          <h2 class="panel-title">Le syndrome de Hutchinson-Gilford (Progeria)</h2>
+          <div class="comparison-grid">
+            <div class="fact-card">
+              <span class="card-label">✓ FAIT RÉEL VÉRIFIÉ (2026) :</span>
+              <p class="card-text">
+                La progeria est une maladie génétique rarissime causée par une mutation du gène LMNA, accélérant le raccourcissement des télomères (vieillissement de 8 à 10 ans pour 1 an biologique).
+              </p>
+            </div>
+            <div class="fiction-card">
+              <span class="card-label">★ EXTRAPOLATION DANS LE ROMAN :</span>
+              <p class="card-text">
+                Élise Valmont en est morte à 13 ans, motivant son frère Léo à devenir généticien. Il découvre que l'obsidienne tibétaine inverse ce processus, mais par une hybridation parasitaire.
+              </p>
+            </div>
+          </div>
+          <div class="author-note">
+            <strong>Intrigue médicale :</strong> Le combat éthique de Léo est au cœur de chaque chapitre.
+          </div>
+        </div>
+
+        <!-- TOP 3 -->
+        <div class="matrix-panel" id="top-3">
+          <span class="panel-meta">DOSSIER #003 — BIOLOGIE MOLÉCULAIRE</span>
+          <h2 class="panel-title">L'enzyme de télomérase et l'immortalité</h2>
+          <div class="comparison-grid">
+            <div class="fact-card">
+              <span class="card-label">✓ FAIT RÉEL VÉRIFIÉ (2026) :</span>
+              <p class="card-text">
+                La télomérase autorépare les extrémités des chromosomes dans certaines cellules. La recherche en longévité cherche à l'activer pour lutter contre la sénescence tissulaire.
+              </p>
+            </div>
+            <div class="fiction-card">
+              <span class="card-label">★ EXTRAPOLATION DANS LE ROMAN :</span>
+              <p class="card-text">
+                Le gène de Qin confère une télomérase infinie (+999 %), mais au prix d'une symbiose avec une architecture biologique ancestrale qui transforme le patient en incubateur.
+              </p>
+            </div>
+          </div>
+          <div class="author-note">
+            <strong>Rigueur technologique :</strong> Un techno-thriller digne de Michael Crichton et James Rollins.
+          </div>
+        </div>
+
+        <!-- TOP 4 -->
+        <div class="matrix-panel" id="top-4">
+          <span class="panel-meta">DOSSIER #004 — ARCHÉOLOGIE SOUS-MARINE (JAPON)</span>
+          <h2 class="panel-title">Le monument immergé de Yonaguni (-30m)</h2>
+          <div class="comparison-grid">
+            <div class="fact-card">
+              <span class="card-label">✓ FAIT RÉEL VÉRIFIÉ (1986) :</span>
+              <p class="card-text">
+                Découvert à 30 mètres de fond dans l'archipel des Ryukyu, le monument de Yonaguni présente des escaliers géants taillés à angles droits parfaits, divisant géologues et archéologues.
+              </p>
+            </div>
+            <div class="fiction-card">
+              <span class="card-label">★ EXTRAPOLATION DANS LE ROMAN :</span>
+              <p class="card-text">
+                Franck Platon en fait le sanctuaire de la seconde couveuse primordiale. C'est là que Julian Sterling s'injecte l'élixir et que Léo commet le sacrifice de s'inoculer l'anticorps.
+              </p>
+            </div>
+          </div>
+          <div class="author-note">
+            <strong>Climax océanique :</strong> Une scène d'action maritime immersive sans temps mort.
+          </div>
+        </div>
+
+        <!-- TOP 5 -->
+        <div class="matrix-panel" id="top-5">
+          <span class="panel-meta">DOSSIER #005 — SURVEILLANCE POLAIRE (ANTARCTIQUE)</span>
+          <h2 class="panel-title">Les oasis géothermiques de Vostok</h2>
+          <div class="comparison-grid">
+            <div class="fact-card">
+              <span class="card-label">✓ FAIT RÉEL VÉRIFIÉ (2026) :</span>
+              <p class="card-text">
+                L'Antarctique abrite des lacs sous-glaciaires géothermiques (comme le lac Vostok) isolés du monde extérieur depuis des millions d'années par des milliers de mètres de glace.
+              </p>
+            </div>
+            <div class="fiction-card">
+              <span class="card-label">★ EXTRAPOLATION DANS LE ROMAN :</span>
+              <p class="card-text">
+                Samira Belkacem (« La Dompteuse d'Ombres ») y établit la Fondation « La Veille Valmont » pour traquer les anomalies dormantes du continent blanc.
+              </p>
+            </div>
+          </div>
+          <div class="author-note">
+            <strong>Cliffhanger inoubliable :</strong> <em>« Il n'y en avait pas qu'une. »</em>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <footer class="cta-footer">
+      <div class="pricing-text">
+        Tarifs Amazon KDP de Franck PLATON : <strong>Broché 10,90 €</strong> | <strong>Relié 24,99 €</strong> | <strong>Kindle 3,99 €</strong>
+      </div>
+      <a href="https://amzn.eu/d/04xCrOHY" target="_blank" rel="noopener noreferrer" class="btn-amazon">
+        COMMANDER LE LIVRE SUR AMAZON ►
+      </a>
+    </footer>
+  </div>
+
+  <script>
+    const btns = document.querySelectorAll('.topic-btn');
+    const panels = document.querySelectorAll('.matrix-panel');
+
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-target');
+        btns.forEach(b => b.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        const activePanel = document.getElementById(target);
+        if (activePanel) activePanel.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

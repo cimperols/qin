@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JOURNAL DE BORD POLAIRE — LA VEILLE VALMONT (ANTARCTIQUE)</title>
+  <style>
+    :root {
+      --bg-dark: #070A0F;
+      --card-bg: #101726;
+      --border-blue: #1E3A5F;
+      --cyan-neon: #00F0FF;
+      --blue-accent: #0D74FF;
+      --text-main: #E2E8F0;
+      --text-dim: #94A3B8;
+      --font-mono: 'Courier New', Courier, monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      background-image: radial-gradient(circle at center, rgba(13, 116, 255, 0.08) 0%, transparent 80%);
+    }
+
+    .audio-log-container {
+      width: 100%;
+      max-width: 880px;
+      background: var(--card-bg);
+      border: 2px solid var(--border-blue);
+      border-radius: 12px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(0, 240, 255, 0.1);
+      overflow: hidden;
+    }
+
+    .log-header {
+      background: #04060A;
+      border-bottom: 1px solid var(--border-blue);
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .log-title {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: var(--cyan-neon);
+      letter-spacing: 2px;
+      font-weight: bold;
+    }
+
+    .freq-badge {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: #38BDF8;
+      background: rgba(0, 240, 255, 0.1);
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
+      border: 1px solid rgba(0, 240, 255, 0.3);
+    }
+
+    .log-body {
+      padding: 2rem;
+    }
+
+    .waveform-visualizer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      height: 60px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border-blue);
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      padding: 0 1rem;
+    }
+
+    .bar {
+      width: 6px;
+      height: 15px;
+      background-color: var(--cyan-neon);
+      border-radius: 3px;
+      transition: height 0.2s ease;
+      animation: pulse 1.5s infinite ease-in-out;
+    }
+
+    .bar:nth-child(2n) { animation-delay: 0.2s; }
+    .bar:nth-child(3n) { animation-delay: 0.4s; }
+    .bar:nth-child(4n) { animation-delay: 0.6s; }
+
+    @keyframes pulse {
+      0%, 100% { height: 12px; opacity: 0.4; }
+      50% { height: 45px; opacity: 1; }
+    }
+
+    .logs-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .log-tab-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-blue);
+      color: var(--text-dim);
+      padding: 0.85rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: bold;
+      transition: all 0.2s ease;
+    }
+
+    .log-tab-btn:hover, .log-tab-btn.active {
+      background: rgba(0, 240, 255, 0.1);
+      border-color: var(--cyan-neon);
+      color: #FFFFFF;
+    }
+
+    .log-content {
+      background: rgba(0, 0, 0, 0.35);
+      border-left: 3px solid var(--cyan-neon);
+      padding: 1.5rem;
+      min-height: 180px;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .log-entry {
+      display: none;
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    .log-entry.active { display: block; }
+
+    .entry-meta {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--cyan-neon);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .entry-text {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #FFFFFF;
+    }
+
+    .cta-footer {
+      background: #04060A;
+      border-top: 1px solid var(--border-blue);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .pricing-text {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+    }
+
+    .pricing-text strong {
+      color: #FFFFFF;
+    }
+
+    .btn-amazon {
+      background: linear-gradient(135deg, var(--blue-accent), var(--cyan-neon));
+      color: #04060A;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-amazon:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 240, 255, 0.3);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .logs-tabs { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="audio-log-container">
+    <header class="log-header">
+      <span class="log-title">JOURNAL DE BORD — BRISE-GLACE « LE VALMONT » (MER DE ROSS)</span>
+      <span class="freq-badge">FRÉQUENCE POLAIRE 14.285 MHz</span>
+    </header>
+
+    <div class="log-body">
+      <div class="waveform-visualizer" aria-hidden="true">
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+      </div>
+
+      <div class="logs-tabs">
+        <button class="log-tab-btn active" data-target="log-1">LOG 01 : GENÈVE</button>
+        <button class="log-tab-btn" data-target="log-2">LOG 02 : VOSTOK</button>
+        <button class="log-tab-btn" data-target="log-3">LOG 03 : KOCHEI</button>
+        <button class="log-tab-btn" data-target="log-4">LOG 04 : LE MESSAGE</button>
+      </div>
+
+      <div class="log-content">
+        <!-- LOG 1 -->
+        <div class="log-entry active" id="log-1">
+          <span class="entry-meta">VOIX : SAMIRA BELKACEM — ARCHIVE #001 (SOINS PALLIATIFS GENÈVE)</span>
+          <p class="entry-text">
+            « Il s'est éteint à 26 ans dans un corps de vieillard. En s'inoculant le sérum pour détruire l'organisme d'immortalité de Sterling, Léo a sacrifié son avenir pour sauver notre humanité. Avant de fermer les yeux, il m'a dit : <em>"Ce n'est pas la durée qui compte. C'est l'intensité."</em> »
+          </p>
+        </div>
+
+        <!-- LOG 2 -->
+        <div class="log-entry" id="log-2">
+          <span class="entry-meta">VOIX : SAMIRA BELKACEM — ARCHIVE #002 (OASIS GÉOTHERMIQUE)</span>
+          <p class="entry-text">
+            « J'ai transformé la fortune de Léo en une mission perpétuelle : la Fondation "La Veille Valmont". Nous avons racheté le brise-glace <em>Le Valmont</em> et installé un périmètre de surveillance dans les vallées sèches d'Antarctique. Le secret n'a pas de saison : nous resterons ici jusqu'à la fin. »
+          </p>
+        </div>
+
+        <!-- LOG 3 -->
+        <div class="log-entry" id="log-3">
+          <span class="entry-meta">VOIX : SAMIRA BELKACEM — ARCHIVE #003 (ALERTE RUSSE FSB)</span>
+          <p class="entry-text">
+            « L'agent Anja Petrova a tenu parole. En Russie, le général a classé le dossier "Kochei" au niveau absolu "Cosmos". Les serveurs ont été purgés, les disques durs fondus en Sibérie. Le monde est sauvé en apparence. Mais la veille continue. »
+          </p>
+        </div>
+
+        <!-- LOG 4 -->
+        <div class="log-entry" id="log-4">
+          <span class="entry-meta">VOIX : SAMIRA BELKACEM — ARCHIVE #004 (MESSAGE CRYPTÉ FINAL)</span>
+          <p class="entry-text">
+            « Ce matin, sur ma tablette cryptée, j'ai reçu cinq mots d'Anja : <em>"Il n'y en avait pas qu'une."</em> Les architectes n'avaient pas envoyé une seule graine au Tibet. Des dizaines sommeillent sous la glace et dans les abysses. Notre guerre ne fait que commencer. »
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <footer class="cta-footer">
+      <div class="pricing-text">
+        Tarifs Amazon KDP de Franck PLATON : <strong>Broché 10,90 €</strong> | <strong>Relié 24,99 €</strong> | <strong>Kindle 3,99 €</strong>
+      </div>
+      <a href="https://amzn.eu/d/04xCrOHY" target="_blank" rel="noopener noreferrer" class="btn-amazon">
+        DÉCOUVRIR LE ROMAN SUR AMAZON ►
+      </a>
+    </footer>
+  </div>
+
+  <script>
+    const btns = document.querySelectorAll('.log-tab-btn');
+    const entries = document.querySelectorAll('.log-entry');
+
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-target');
+        btns.forEach(b => b.classList.remove('active'));
+        entries.forEach(e => e.classList.remove('active'));
+        btn.classList.add('active');
+        const activeEntry = document.getElementById(target);
+        if (activeEntry) activeEntry.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

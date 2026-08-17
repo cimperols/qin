@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CHRONOLOGIE DU GÈNE DE QIN (221 AV. J.-C. → 2026) | FRANCK PLATON</title>
+  <style>
+    :root {
+      --bg-dark: #0A0D14;
+      --card-bg: #111724;
+      --border-blue: #1E3354;
+      --cyan-neon: #00F0FF;
+      --blue-accent: #0D74FF;
+      --gold-imperial: #F59E0B;
+      --red-seal: #DC2626;
+      --text-main: #E2E8F0;
+      --text-dim: #94A3B8;
+      --font-mono: 'Courier New', Courier, monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      background-image: radial-gradient(circle at center, rgba(245, 158, 11, 0.08) 0%, transparent 80%);
+    }
+
+    .timeline-container {
+      width: 100%;
+      max-width: 920px;
+      background: var(--card-bg);
+      border: 2px solid var(--border-blue);
+      border-radius: 12px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(245, 158, 11, 0.12);
+      overflow: hidden;
+    }
+
+    .timeline-header {
+      background: #05070C;
+      border-bottom: 1px solid var(--border-blue);
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .timeline-title {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--gold-imperial);
+      letter-spacing: 2px;
+      font-weight: bold;
+    }
+
+    .seal-badge {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      background: var(--red-seal);
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
+      letter-spacing: 1px;
+    }
+
+    .timeline-body {
+      padding: 2.5rem;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 2.5rem;
+      min-height: 440px;
+    }
+
+    .dates-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      border-right: 1px solid var(--border-blue);
+      padding-right: 1.5rem;
+    }
+
+    .nav-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .date-btn {
+      width: 100%;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+      padding: 0.85rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      transition: all 0.2s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .date-btn:hover, .date-btn.active {
+      background: rgba(245, 158, 11, 0.12);
+      border-color: var(--gold-imperial);
+      color: #FFFFFF;
+    }
+
+    .date-btn.active::after {
+      content: "◄";
+      color: var(--gold-imperial);
+    }
+
+    .timeline-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .timeline-panel {
+      display: none;
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    .timeline-panel.active { display: block; }
+
+    .panel-meta {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--gold-imperial);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .panel-title {
+      font-size: 1.75rem;
+      color: #FFFFFF;
+      margin-bottom: 1.25rem;
+    }
+
+    .panel-desc {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--text-main);
+      margin-bottom: 1.5rem;
+    }
+
+    .fact-box {
+      background: rgba(0, 240, 255, 0.05);
+      border-left: 3px solid var(--cyan-neon);
+      padding: 1rem 1.25rem;
+      font-size: 0.9rem;
+      color: #FFFFFF;
+    }
+
+    .cta-footer {
+      background: #05070C;
+      border-top: 1px solid var(--border-blue);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .pricing-text {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+    }
+
+    .pricing-text strong { color: #FFFFFF; }
+
+    .btn-amazon {
+      background: linear-gradient(135deg, var(--blue-accent), var(--cyan-neon));
+      color: #05070C;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.25s ease;
+    }
+
+    .btn-amazon:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 240, 255, 0.3);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .timeline-body { grid-template-columns: 1fr; }
+      .dates-nav { border-right: none; border-bottom: 1px solid var(--border-blue); padding-right: 0; padding-bottom: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="timeline-container">
+    <header class="timeline-header">
+      <span class="timeline-title">ARCHIVE IMPÉRIALE & SCIENTIFIQUE — CHRONOLOGIE QIN</span>
+      <span class="seal-badge">SCEAU IMPÉRIAL 221 AV. J.-C.</span>
+    </header>
+
+    <div class="timeline-body">
+      <aside class="dates-nav" aria-label="Sélection des dates clés de la chronologie">
+        <span class="nav-label">JALONS HISTORIQUES :</span>
+        <button class="date-btn active" data-target="date-1">221 AV. J.-C. — L'ÉDIT QIN</button>
+        <button class="date-btn" data-target="date-2">210 AV. J.-C. — LE MERCURE</button>
+        <button class="date-btn" data-target="date-3">1986 — YONAGUNI (-30M)</button>
+        <button class="date-btn" data-target="date-4">2025 — L'ODYSSÉE & LÉO</button>
+        <button class="date-btn" data-target="date-5">2026 — LA VEILLE VALMONT</button>
+      </aside>
+
+      <main class="timeline-content">
+        <!-- DATE 1 -->
+        <div class="timeline-panel active" id="date-1">
+          <span class="panel-meta">JALON 01 — MASSIF DU KUNLUN (TIBET — ALTITUDE 4300M)</span>
+          <h2 class="panel-title">L'édit de l'Empereur Qin Shi Huang</h2>
+          <p class="panel-desc">
+            Dans la 26e année de son règne, le Premier Empereur de Chine dépêche le Capitaine Jin et l'alchimiste Maître Wei dans les sommets gelés du mont Kunlun pour recueillir le <em>yao</em>, l'élixir d'immortalité. Ils découvrent la vasque d'obsidienne noire.
+          </p>
+          <div class="fact-box">
+            <strong>Fait archéologique 2025 :</strong> L'inscription rupestre gravée à 4300m d'altitude atteste officiellement la réalité de cette expédition antique.
+          </div>
+        </div>
+
+        <!-- DATE 2 -->
+        <div class="timeline-panel" id="date-2">
+          <span class="panel-meta">JALON 02 — CHINE IMPÉRIALE</span>
+          <h2 class="panel-title">L'échec du mercure & la mort de Qin</h2>
+          <p class="panel-desc">
+            Le Capitaine Jin ayant refusé de rapporter la malédiction d'obsidienne, Qin Shi Huang tente de prolonger ses jours en consommant des pilules de cinabre et de mercure préparées par ses alchimistes. Il meurt empoisonné en 210 av. J.-C. à 49 ans.
+          </p>
+          <div class="fact-box">
+            <strong>Donnée historique :</strong> Son tombeau est célèbre pour héberger l'armée de terre cuite de 8000 soldats.
+          </div>
+        </div>
+
+        <!-- DATE 3 -->
+        <div class="timeline-panel" id="date-3">
+          <span class="panel-meta">JALON 03 — ARCHIPEL DES ÎLES RYUKYU (JAPON)</span>
+          <h2 class="panel-title">La découverte de Yonaguni par 30m de fond</h2>
+          <p class="panel-desc">
+            En 1986, un plongeur japonais découvre d'immenses terrasses monolithiques et des escaliers cyclopéens immergés à -30m de fond au large de l'île de Yonaguni. Dans le roman, ces ruines abritent la seconde couveuse primordiale laissée par « les architectes ».
+          </p>
+          <div class="fact-box">
+            <strong>Théâtre du Climax :</strong> C'est ici que Léo Valmont s'inoculera le sérum viral d'anticorps.
+          </div>
+        </div>
+
+        <!-- DATE 4 -->
+        <div class="timeline-panel" id="date-4">
+          <span class="panel-meta">JALON 04 — MER MÉDITERRANÉE / YACHT L'ODYSSÉE</span>
+          <h2 class="panel-title">Le séquençage de l'ADN par Léo Valmont</h2>
+          <p class="panel-desc">
+            En 2025, le milliardaire Julian Sterling finance l'extraction de l'obsidienne tibétaine et engage le Dr Léo Valmont — motivé par le décès de sa sœur Élise de progeria. Léo découvre que le gène autorépare les télomères mais mute la cellule hôte.
+          </p>
+          <div class="fact-box">
+            <strong>Dilemme moral :</strong> Léo et Samira Belkacem (« La Dompteuse d'Ombres ») refusent d'offrir l'éternité aux puissants.
+          </div>
+        </div>
+
+        <!-- DATE 5 -->
+        <div class="timeline-panel" id="date-5">
+          <span class="panel-meta">JALON 05 — GENÈVE & MER DE ROSS (ANTARCTIQUE)</span>
+          <h2 class="panel-title">Le legs de Genève & La Veille Valmont</h2>
+          <p class="panel-desc">
+            Après la mort de Léo en soins palliatifs à Genève à 26 ans dans un corps de 90 ans, Samira Belkacem fonde « La Veille Valmont » et installe le brise-glace <em>Le Valmont</em> dans l'enfer blanc polaire. Elle reçoit le message du général russe Anja Petrova : <em>« Il n'y en avait pas qu'une. »</em>
+          </p>
+          <div class="fact-box">
+            <strong>Découvrez tout le roman :</strong> Les 20 chapitres de Franck PLATON sont disponibles sur Amazon KDP.
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <footer class="cta-footer">
+      <div class="pricing-text">
+        Tarifs Amazon KDP de Franck PLATON : <strong>Broché 10,90 €</strong> | <strong>Relié 24,99 €</strong> | <strong>Kindle 3,99 €</strong>
+      </div>
+      <a href="https://amzn.eu/d/04xCrOHY" target="_blank" rel="noopener noreferrer" class="btn-amazon">
+        COMMANDER LE LIVRE SUR AMAZON ►
+      </a>
+    </footer>
+  </div>
+
+  <script>
+    const btns = document.querySelectorAll('.date-btn');
+    const panels = document.querySelectorAll('.timeline-panel');
+
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-target');
+        btns.forEach(b => b.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        const activePanel = document.getElementById(target);
+        if (activePanel) activePanel.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

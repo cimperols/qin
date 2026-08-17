@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOMMAIRE GÉNÉRAL INTERACTIF — LE GÈNE DE QIN | FRANCK PLATON</title>
+  <style>
+    :root {
+      --bg-dark: #06080F;
+      --card-bg: #0D1322;
+      --card-hover: #141D33;
+      --border-blue: #1C3358;
+      --cyan-neon: #00F0FF;
+      --blue-accent: #0D74FF;
+      --gold-imperial: #F59E0B;
+      --red-alert: #DC2626;
+      --text-main: #E2E8F0;
+      --text-dim: #64748B;
+      --font-mono: 'Courier New', Courier, monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      line-height: 1.6;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(0, 240, 255, 0.08) 0%, transparent 75%),
+        linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+      background-size: 100% 100%, 35px 35px, 35px 35px;
+    }
+
+    .header-nav {
+      position: sticky;
+      top: 0;
+      background: rgba(6, 8, 15, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-blue);
+      z-index: 1000;
+      padding: 0.75rem 0;
+    }
+
+    .nav-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .logo-brand {
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #FFFFFF;
+      text-decoration: none;
+      letter-spacing: 1px;
+    }
+
+    .logo-brand span { color: var(--cyan-neon); }
+
+    .nav-links {
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-link {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .nav-link:hover { color: var(--cyan-neon); }
+
+    .hero-banner {
+      max-width: 1280px;
+      margin: 3rem auto 2rem auto;
+      padding: 0 1.5rem;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--gold-imperial);
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 0.35rem 0.85rem;
+      border-radius: 50px;
+      margin-bottom: 1rem;
+      letter-spacing: 2px;
+    }
+
+    .hero-title {
+      font-size: 2.75rem;
+      color: #FFFFFF;
+      margin-bottom: 0.75rem;
+      font-weight: 900;
+    }
+
+    .hero-subtitle {
+      font-size: 1.15rem;
+      color: var(--text-dim);
+      max-width: 760px;
+      margin: 0 auto 1.75rem auto;
+    }
+
+    .pricing-bar {
+      display: inline-flex;
+      gap: 1.5rem;
+      background: var(--card-bg);
+      border: 1px solid var(--border-blue);
+      padding: 0.75rem 1.75rem;
+      border-radius: 50px;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .price-item {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+    }
+
+    .price-item strong { color: #FFFFFF; font-weight: 700; }
+
+    .piliers-grid {
+      max-width: 1280px;
+      margin: 0 auto 3rem auto;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .pilier-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-blue);
+      border-radius: 10px;
+      padding: 1.5rem;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .pilier-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--cyan-neon);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    .pilier-tag {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--cyan-neon);
+      margin-bottom: 0.5rem;
+      display: block;
+      letter-spacing: 1px;
+    }
+
+    .pilier-title {
+      font-size: 1.25rem;
+      color: #FFFFFF;
+      margin-bottom: 0.75rem;
+    }
+
+    .pilier-desc {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+      margin-bottom: 1.25rem;
+    }
+
+    .btn-action {
+      display: inline-block;
+      background: rgba(0, 240, 255, 0.1);
+      border: 1px solid var(--cyan-neon);
+      color: var(--cyan-neon);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.6rem 1.1rem;
+      border-radius: 6px;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+
+    .btn-action:hover {
+      background: var(--cyan-neon);
+      color: #06080F;
+    }
+
+    .filter-tabs {
+      max-width: 1280px;
+      margin: 0 auto 2.5rem auto;
+      padding: 0 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      justify-content: center;
+    }
+
+    .filter-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-blue);
+      color: var(--text-dim);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: var(--cyan-neon);
+      color: #FFFFFF;
+    }
+
+    .dossiers-grid {
+      max-width: 1280px;
+      margin: 0 auto 4rem auto;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .dossier-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-blue);
+      border-radius: 10px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s ease;
+    }
+
+    .dossier-card:hover {
+      background: var(--card-hover);
+      border-color: rgba(0, 240, 255, 0.4);
+      transform: translateY(-3px);
+    }
+
+    .dossier-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
+    }
+
+    .dossier-id {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--gold-imperial);
+      font-weight: bold;
+    }
+
+    .dossier-cat {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .dossier-title {
+      font-size: 1.15rem;
+      color: #FFFFFF;
+      margin-bottom: 0.75rem;
+    }
+
+    .dossier-desc {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .files-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 1rem;
+    }
+
+    .file-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-main);
+      padding: 0.3rem 0.6rem;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .file-chip:hover {
+      background: var(--cyan-neon);
+      color: #06080F;
+      border-color: var(--cyan-neon);
+    }
+
+    .file-chip.app-chip {
+      background: rgba(245, 158, 11, 0.1);
+      border-color: var(--gold-imperial);
+      color: var(--gold-imperial);
+      font-weight: bold;
+    }
+
+    .file-chip.app-chip:hover {
+      background: var(--gold-imperial);
+      color: #06080F;
+    }
+
+    .site-footer {
+      border-top: 1px solid var(--border-blue);
+      padding: 3rem 1.5rem;
+      text-align: center;
+      background: #030509;
+      margin-top: auto;
+    }
+
+    .footer-title {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      color: #FFFFFF;
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-desc {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-amazon-large {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--blue-accent), var(--cyan-neon));
+      color: #06080F;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0.85rem 2rem;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all 0.25s ease;
+    }
+
+    .btn-amazon-large:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 240, 255, 0.35);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header-nav">
+    <div class="nav-container">
+      <a href="sommaire.html" class="logo-brand">SOMMAIRE GÉNÉRAL <span>[LE GÈNE DE QIN]</span></a>
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">► Site Web Promotionnel</a>
+        <a href="COMPTE_RENDU_GENERAL_MISSION_KDP.md" class="nav-link">► Compte Rendu Exécutif</a>
+        <a href="bible_le_gene_de_qin.md" class="nav-link">► Bible du Livre</a>
+        <a href="aplus_content_le_gene_de_qin.md" class="nav-link">► Dossier A+ KDP</a>
+        <a href="rapport_final_le_gene_de_qin.md" class="nav-link">► Rapport SEO & Social</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero-banner">
+    <span class="hero-badge">ARCHIVE GLOBALE DE LA MISSION KDP 2026</span>
+    <h1 class="hero-title">LE GÈNE DE QIN — FRANCK PLATON</h1>
+    <p class="hero-subtitle">
+      Répertoire interactif complet de l'écosystème promotionnel : accès direct aux rapports d'expertise, au site web de conversion Amazon KDP et aux <strong>54 dossiers A+ indépendants</strong> créés dans le workspace.
+    </p>
+    <div class="pricing-bar">
+      <span class="price-item">Broché : <strong>10,90 €</strong></span>
+      <span class="price-item">Relié Deluxe : <strong>24,99 €</strong></span>
+      <span class="price-item">Kindle Ebook : <strong>3,99 €</strong></span>
+      <span class="price-item"><a href="https://amzn.eu/d/04xCrOHY" target="_blank" style="color: var(--cyan-neon); text-decoration: underline;">Acheter sur Amazon</a></span>
+    </div>
+  </section>
+
+  <!-- PILIERS PRINCIPAUX -->
+  <section class="piliers-grid">
+    <div class="pilier-card">
+      <div>
+        <span class="pilier-tag">PILIERS PRINCIPAUX // 01</span>
+        <h3 class="pilier-title">Site Web Promotionnel KDP</h3>
+        <p class="pilier-desc">
+          Landing page « One-Page » optimisée SEO, avec couverture officielle, photo auteur, chronologie interactive et liens Amazon KDP.
+        </p>
+      </div>
+      <a href="index.html" class="btn-action">Ouvrir index.html ►</a>
+    </div>
+
+    <div class="pilier-card">
+      <div>
+        <span class="pilier-tag">PILIERS PRINCIPAUX // 02</span>
+        <h3 class="pilier-title">Compte Rendu Exécutif Général</h3>
+        <p class="pilier-desc">
+          Rapport d'expertise synthétisant l'analyse en 13 points, la stratégie SEO A10, le calendrier social 30 jours et la méthodologie.
+        </p>
+      </div>
+      <a href="COMPTE_RENDU_GENERAL_MISSION_KDP.md" class="btn-action">Ouvrir le Compte Rendu ►</a>
+    </div>
+
+    <div class="pilier-card">
+      <div>
+        <span class="pilier-tag">PILIERS PRINCIPAUX // 03</span>
+        <h3 class="pilier-title">Bible du Livre & SEO KDP</h3>
+        <p class="pilier-desc">
+          Source unique de vérité : arcs de Léo, Samira, Sterling et Anja, 7 mots-clés long-tail, bios Author Central et prompt XML.
+        </p>
+      </div>
+      <a href="bible_le_gene_de_qin.md" class="btn-action">Ouvrir la Bible (.md) ►</a>
+    </div>
+
+    <div class="pilier-card">
+      <div>
+        <span class="pilier-tag">PILIERS PRINCIPAUX // 04</span>
+        <h3 class="pilier-title">Les 4 Architectures A+ Complètes</h3>
+        <p class="pilier-desc">
+          Les 4 concepts de pages A+ (Le Choc des Siècles, Le Protocole, Le Sanctuaire, La Guerre Secrète) construits sur 17 modules KDP.
+        </p>
+      </div>
+      <a href="aplus_content_le_gene_de_qin.md" class="btn-action">Ouvrir le Dossier A+ ►</a>
+    </div>
+  </section>
+
+  <!-- FILTRES PAR CATÉGORIES -->
+  <div class="filter-tabs" id="filterTabs">
+    <button class="filter-btn active" data-cat="all">TOUS LES DOSSIERS (54)</button>
+    <button class="filter-btn" data-cat="cat-a">A. Logos & Marques (2)</button>
+    <button class="filter-btn" data-cat="cat-b">B. Bandeaux Hero (10)</button>
+    <button class="filter-btn" data-cat="cat-c">C. Cartes & Blueprints (8)</button>
+    <button class="filter-btn" data-cat="cat-d">D. Artbooks & High-Tech (4)</button>
+    <button class="filter-btn" data-cat="cat-e">E. Personnages & Duels (3)</button>
+    <button class="filter-btn" data-cat="cat-f">F. Affiches & Mockups (6)</button>
+    <button class="filter-btn" data-cat="cat-g">G. Artefacts Muséaux (4)</button>
+    <button class="filter-btn" data-cat="cat-h">H. Tropes & Citations (4)</button>
+    <button class="filter-btn" data-cat="cat-i">I. 13 Apps HTML5 Autonomes (13)</button>
+  </div>
+
+  <!-- GRILLE DES 54 DOSSIERS -->
+  <section class="dossiers-grid" id="dossiersGrid">
+
+    <div class="dossier-card" data-cat="cat-i">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #10</span>
+          <span class="dossier-cat">Catégorie I</span>
+        </div>
+        <h3 class="dossier-title">Experience Interactive Audio Log</h3>
+        <p class="dossier-desc">Expérience HTML5 interactive simulant la fréquence radio polaire 14.285 MHz du brise-glace Le Valmont et les archives sonores de Samira.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/10_experience_interactive_audio_log/README_AUDIO_LOG.md" class="file-chip" target="_blank">📝 README_AUDIO_LOG.md</a>
+<a href="pack_aplus_promotion/10_experience_interactive_audio_log/index.html" class="file-chip app-chip" target="_blank">► index.html (App Web)</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-c">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #11</span>
+          <span class="dossier-cat">Catégorie C</span>
+        </div>
+        <h3 class="dossier-title">Infographies Chronologiques Et Genetiques</h3>
+        <p class="dossier-desc">Schémas infographiques comparant l'horloge biologique (progeria vs télomérase) et chronologie split-screen 221 av. J.-C. vs 2025.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/11_infographies_chronologiques_et_genetiques/infographie_adn_horloge.jpg" class="file-chip" target="_blank">🖼️ infographie_adn_horloge.jpg</a>
+<a href="pack_aplus_promotion/11_infographies_chronologiques_et_genetiques/infographie_chronologie_221bc_2025.md" class="file-chip" target="_blank">📝 infographie_chronologie_221bc_2025.md</a>
+<a href="pack_aplus_promotion/11_infographies_chronologiques_et_genetiques/infographie_horloge_progeria.md" class="file-chip" target="_blank">📝 infographie_horloge_progeria.md</a>
+<a href="pack_aplus_promotion/11_infographies_chronologiques_et_genetiques/infographie_timeline_siecles.jpg" class="file-chip" target="_blank">🖼️ infographie_timeline_siecles.jpg</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-d">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #12</span>
+          <span class="dossier-cat">Catégorie D</span>
+        </div>
+        <h3 class="dossier-title">Concept Art Equipements Et Vehicules</h3>
+        <p class="dossier-desc">Concept art high-tech en coupe du yacht-laboratoire L'Odyssée (118 mètres) et du brise-glace rouge et noir Le Valmont en Antarctique.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/12_concept_art_equipements_et_vehicules/concept_art_brise_glace.jpg" class="file-chip" target="_blank">🖼️ concept_art_brise_glace.jpg</a>
+<a href="pack_aplus_promotion/12_concept_art_equipements_et_vehicules/concept_art_brise_glace_valmont.md" class="file-chip" target="_blank">📝 concept_art_brise_glace_valmont.md</a>
+<a href="pack_aplus_promotion/12_concept_art_equipements_et_vehicules/concept_art_odyssee_labo.jpg" class="file-chip" target="_blank">🖼️ concept_art_odyssee_labo.jpg</a>
+<a href="pack_aplus_promotion/12_concept_art_equipements_et_vehicules/concept_art_yacht_odyssee_coupe.md" class="file-chip" target="_blank">📝 concept_art_yacht_odyssee_coupe.md</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-f">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #13</span>
+          <span class="dossier-cat">Catégorie F</span>
+        </div>
+        <h3 class="dossier-title">Storyboards Cinematographiques A Plus</h3>
+        <p class="dossier-desc">Storyboards cinématographiques en écran large pour le climax de plongée à -30m à Yonaguni et l'incipit des alchimistes au Kunlun.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/13_storyboards_cinematographiques_a_plus/storyboard_climax_yonaguni.md" class="file-chip" target="_blank">📝 storyboard_climax_yonaguni.md</a>
+<a href="pack_aplus_promotion/13_storyboards_cinematographiques_a_plus/storyboard_kunlun_alchimistes.jpg" class="file-chip" target="_blank">🖼️ storyboard_kunlun_alchimistes.jpg</a>
+<a href="pack_aplus_promotion/13_storyboards_cinematographiques_a_plus/storyboard_prologue_kunlun.md" class="file-chip" target="_blank">📝 storyboard_prologue_kunlun.md</a>
+<a href="pack_aplus_promotion/13_storyboards_cinematographiques_a_plus/storyboard_yonaguni_plongee.jpg" class="file-chip" target="_blank">🖼️ storyboard_yonaguni_plongee.jpg</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-i">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #14</span>
+          <span class="dossier-cat">Catégorie I</span>
+        </div>
+        <h3 class="dossier-title">Experience Interactive Terminal Adn</h3>
+        <p class="dossier-desc">Application HTML5 autonome simulant le Séquenceur Génétique du Dr Léo Valmont et le test d'activité télomérase (+999 %).</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/14_experience_interactive_terminal_adn/README_SEQUENCEUR.md" class="file-chip" target="_blank">📝 README_SEQUENCEUR.md</a>
+<a href="pack_aplus_promotion/14_experience_interactive_terminal_adn/index.html" class="file-chip app-chip" target="_blank">► index.html (App Web)</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-d">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #15</span>
+          <span class="dossier-cat">Catégorie D</span>
+        </div>
+        <h3 class="dossier-title">Fiches Technologies Et Protocoles</h3>
+        <p class="dossier-desc">Fiches matériels cliniques et tactiques : moniteur de séquençage ADN à bord de L'Odyssée et combinaison polaire à visière thermique de Samira.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/15_fiches_technologies_et_protocoles/protocole_combinaison_arctique.md" class="file-chip" target="_blank">📝 protocole_combinaison_arctique.md</a>
+<a href="pack_aplus_promotion/15_fiches_technologies_et_protocoles/protocole_sequenceur_genetique.md" class="file-chip" target="_blank">📝 protocole_sequenceur_genetique.md</a>
+<a href="pack_aplus_promotion/15_fiches_technologies_et_protocoles/tech_combinaison_polaire.jpg" class="file-chip" target="_blank">🖼️ tech_combinaison_polaire.jpg</a>
+<a href="pack_aplus_promotion/15_fiches_technologies_et_protocoles/tech_sequenceur_adn.jpg" class="file-chip" target="_blank">🖼️ tech_sequenceur_adn.jpg</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-c">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #16</span>
+          <span class="dossier-cat">Catégorie C</span>
+        </div>
+        <h3 class="dossier-title">Cartes Regimentaires Et Base Vostok</h3>
+        <p class="dossier-desc">Plans blueprints architecturaux tactiques : base souterraine géothermique de Vostok en Antarctique et relevé sonar de Yonaguni -30m.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/16_cartes_regimentaires_et_base_vostok/carte_abysse_pyramide_yonaguni.md" class="file-chip" target="_blank">📝 carte_abysse_pyramide_yonaguni.md</a>
+<a href="pack_aplus_promotion/16_cartes_regimentaires_et_base_vostok/carte_base_secrete_vostok.md" class="file-chip" target="_blank">📝 carte_base_secrete_vostok.md</a>
+<a href="pack_aplus_promotion/16_cartes_regimentaires_et_base_vostok/plan_base_vostok.jpg" class="file-chip" target="_blank">🖼️ plan_base_vostok.jpg</a>
+<a href="pack_aplus_promotion/16_cartes_regimentaires_et_base_vostok/plan_pyramide_yonaguni.jpg" class="file-chip" target="_blank">🖼️ plan_pyramide_yonaguni.jpg</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-b">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #17</span>
+          <span class="dossier-cat">Catégorie B</span>
+        </div>
+        <h3 class="dossier-title">Bandeaux Immersion Cinematographique</h3>
+        <p class="dossier-desc">Bandeaux atmosphériques pour le monastère de Paro au Bhoutan dans la brume et le lac Léman à Genève au coucher du soleil.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/17_bandeaux_immersion_cinematographique/bandeau_geneve_leman.jpg" class="file-chip" target="_blank">🖼️ bandeau_geneve_leman.jpg</a>
+<a href="pack_aplus_promotion/17_bandeaux_immersion_cinematographique/bandeau_hero_geneve_leman.md" class="file-chip" target="_blank">📝 bandeau_hero_geneve_leman.md</a>
+<a href="pack_aplus_promotion/17_bandeaux_immersion_cinematographique/bandeau_hero_monastere_bhoutan.md" class="file-chip" target="_blank">📝 bandeau_hero_monastere_bhoutan.md</a>
+<a href="pack_aplus_promotion/17_bandeaux_immersion_cinematographique/bandeau_monastere_bhoutan.jpg" class="file-chip" target="_blank">🖼️ bandeau_monastere_bhoutan.jpg</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-i">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #18</span>
+          <span class="dossier-cat">Catégorie I</span>
+        </div>
+        <h3 class="dossier-title">Experience Interactive Carte Tactique</h3>
+        <p class="dossier-desc">Application HTML5 simulant le réseau satellite orbital de La Veille Valmont traquant les 5 coordonnées géographiques du roman.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/18_experience_interactive_carte_tactique/README_CARTE_TACTIQUE.md" class="file-chip" target="_blank">📝 README_CARTE_TACTIQUE.md</a>
+<a href="pack_aplus_promotion/18_experience_interactive_carte_tactique/index.html" class="file-chip app-chip" target="_blank">► index.html (App Web)</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-c">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #19</span>
+          <span class="dossier-cat">Catégorie C</span>
+        </div>
+        <h3 class="dossier-title">Tableaux Enquete Et Factions</h3>
+        <p class="dossier-desc">Evidence Board (tableau d'enquête d'espionnage) reliant Léo, Sam, Sterling et Anja + schéma infographique de la symbiose parasitaire.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/19_tableaux_enquete_et_factions/diagramme_symbiose_parasite.md" class="file-chip" target="_blank">📝 diagramme_symbiose_parasite.md</a>
+<a href="pack_aplus_promotion/19_tableaux_enquete_et_factions/evidence_board_factions.jpg" class="file-chip" target="_blank">🖼️ evidence_board_factions.jpg</a>
+<a href="pack_aplus_promotion/19_tableaux_enquete_et_factions/infographie_symbiose_virus.jpg" class="file-chip" target="_blank">🖼️ infographie_symbiose_virus.jpg</a>
+<a href="pack_aplus_promotion/19_tableaux_enquete_et_factions/tableau_enquete_factions_kochei.md" class="file-chip" target="_blank">📝 tableau_enquete_factions_kochei.md</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-a">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #01</span>
+          <span class="dossier-cat">Catégorie A</span>
+        </div>
+        <h3 class="dossier-title">Logos Et Insignes</h3>
+        <p class="dossier-desc">Logos institutionnels tactiques pour La Veille Valmont (Antarctique) et Sterling Biotech (L'Odyssée). Idéaux en tête de page A+ pour marquer l'identité du techno-thriller.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/1_logos_et_insignes/logo_la_veille_valmont.jpg" class="file-chip" target="_blank">🖼️ logo_la_veille_valmont.jpg</a>
+<a href="pack_aplus_promotion/1_logos_et_insignes/logo_la_veille_valmont.md" class="file-chip" target="_blank">📝 logo_la_veille_valmont.md</a>
+<a href="pack_aplus_promotion/1_logos_et_insignes/logo_sterling_biotech.jpg" class="file-chip" target="_blank">🖼️ logo_sterling_biotech.jpg</a>
+<a href="pack_aplus_promotion/1_logos_et_insignes/logo_sterling_biotech.md" class="file-chip" target="_blank">📝 logo_sterling_biotech.md</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-g">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #20</span>
+          <span class="dossier-cat">Catégorie G</span>
+        </div>
+        <h3 class="dossier-title">Artefacts Archives Et Lamelles</h3>
+        <p class="dossier-desc">Artefacts muséaux d'époque Qin : lamelle de bambou calligraphiée par le scribe Bao au Tibet et fiole de bronze ornée de dragons impériaux.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/20_artefacts_archives_et_lamelles/artefact_bambou_scribe.jpg" class="file-chip" target="_blank">🖼️ artefact_bambou_scribe.jpg</a>
+<a href="pack_aplus_promotion/20_artefacts_archives_et_lamelles/artefact_fiole_bronze.jpg" class="file-chip" target="_blank">🖼️ artefact_fiole_bronze.jpg</a>
+<a href="pack_aplus_promotion/20_artefacts_archives_et_lamelles/artefact_fiole_bronze_alchimiste.md" class="file-chip" target="_blank">📝 artefact_fiole_bronze_alchimiste.md</a>
+<a href="pack_aplus_promotion/20_artefacts_archives_et_lamelles/artefact_lamelle_bambou_scribe_bao.md" class="file-chip" target="_blank">📝 artefact_lamelle_bambou_scribe_bao.md</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-b">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #21</span>
+          <span class="dossier-cat">Catégorie B</span>
+        </div>
+        <h3 class="dossier-title">Bandeaux Climax Et Sacrifice</h3>
+        <p class="dossier-desc">Hero Banners grand format pour le gigantesque escalier monolithique immergé de Yonaguni à -30m et les sommets du Kunlun au crépuscule.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/21_bandeaux_climax_et_sacrifice/bandeau_hero_antiquite_kunlun.md" class="file-chip" target="_blank">📝 bandeau_hero_antiquite_kunlun.md</a>
+<a href="pack_aplus_promotion/21_bandeaux_climax_et_sacrifice/bandeau_hero_sacrifice_yonaguni.md" class="file-chip" target="_blank">📝 bandeau_hero_sacrifice_yonaguni.md</a>
+<a href="pack_aplus_promotion/21_bandeaux_climax_et_sacrifice/bandeau_kunlun_faille_crepuscule.jpg" class="file-chip" target="_blank">🖼️ bandeau_kunlun_faille_crepuscule.jpg</a>
+<a href="pack_aplus_promotion/21_bandeaux_climax_et_sacrifice/bandeau_yonaguni_monolithe.jpg" class="file-chip" target="_blank">🖼️ bandeau_yonaguni_monolithe.jpg</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-i">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #22</span>
+          <span class="dossier-cat">Catégorie I</span>
+        </div>
+        <h3 class="dossier-title">Experience Interactive Dossier Kochei</h3>
+        <p class="dossier-desc">Application HTML5 simulant les archives déclassifiées du Kremlin et de la DGSE (Projet Kochei) avec blocs noirs à censurer/révéler.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/22_experience_interactive_dossier_kochei/README_DOSSIER_KOCHEI.md" class="file-chip" target="_blank">📝 README_DOSSIER_KOCHEI.md</a>
+<a href="pack_aplus_promotion/22_experience_interactive_dossier_kochei/index.html" class="file-chip app-chip" target="_blank">► index.html (App Web)</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-f">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #23</span>
+          <span class="dossier-cat">Catégorie F</span>
+        </div>
+        <h3 class="dossier-title">Moodboards Esthetiques Et Atmospheres</h3>
+        <p class="dossier-desc">Collages moodboards en 4 panneaux reliant les décors et objets clés de l'Atlantide glaciaire et du huis clos en mer sur L'Odyssée.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/23_moodboards_esthetiques_et_atmospheres/moodboard_atlantide_glace.jpg" class="file-chip" target="_blank">🖼️ moodboard_atlantide_glace.jpg</a>
+<a href="pack_aplus_promotion/23_moodboards_esthetiques_et_atmospheres/moodboard_atlantide_glaciale.md" class="file-chip" target="_blank">📝 moodboard_atlantide_glaciale.md</a>
+<a href="pack_aplus_promotion/23_moodboards_esthetiques_et_atmospheres/moodboard_labo_cyber.jpg" class="file-chip" target="_blank">🖼️ moodboard_labo_cyber.jpg</a>
+<a href="pack_aplus_promotion/23_moodboards_esthetiques_et_atmospheres/moodboard_laboratoire_nocturne.md" class="file-chip" target="_blank">📝 moodboard_laboratoire_nocturne.md</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-h">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #24</span>
+          <span class="dossier-cat">Catégorie H</span>
+        </div>
+        <h3 class="dossier-title">Cartes Eloge Litteraire Et Critique</h3>
+        <p class="dossier-desc">Cartes graphiques de laurier doré et ADN célébrant l'excellence littéraire, la rigueur scientifique et l'archéo-SF du livre.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/24_cartes_eloge_litteraire_et_critique/carte_eloge_archeo_sf.md" class="file-chip" target="_blank">📝 carte_eloge_archeo_sf.md</a>
+<a href="pack_aplus_promotion/24_cartes_eloge_litteraire_et_critique/carte_eloge_thriller_scientifique.md" class="file-chip" target="_blank">📝 carte_eloge_thriller_scientifique.md</a>
+<a href="pack_aplus_promotion/24_cartes_eloge_litteraire_et_critique/praise_card_archeo_sf.jpg" class="file-chip" target="_blank">🖼️ praise_card_archeo_sf.jpg</a>
+<a href="pack_aplus_promotion/24_cartes_eloge_litteraire_et_critique/praise_card_thriller.jpg" class="file-chip" target="_blank">🖼️ praise_card_thriller.jpg</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-f">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #25</span>
+          <span class="dossier-cat">Catégorie F</span>
+        </div>
+        <h3 class="dossier-title">Matrices Comparaison Litteraire</h3>
+        <p class="dossier-desc">Matrice de comparaison littéraire situant Le Gène de Qin dans la lignée de Michael Crichton, James Rollins et Frank Schätzing.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/25_matrices_comparaison_litteraire/matrice_comparaison_thrillers_crichton_rollins.md" class="file-chip" target="_blank">📝 matrice_comparaison_thrillers_crichton_rollins.md</a>
+<a href="pack_aplus_promotion/25_matrices_comparaison_litteraire/showcase_matrice_thrillers.jpg" class="file-chip" target="_blank">🖼️ showcase_matrice_thrillers.jpg</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-i">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #26</span>
+          <span class="dossier-cat">Catégorie I</span>
+        </div>
+        <h3 class="dossier-title">Experience Interactive Chronologie Qin</h3>
+        <p class="dossier-desc">Application HTML5 de chronologie interactive en 5 jalons historiques et scientifiques (221 av. J.-C. → 2026).</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/26_experience_interactive_chronologie_qin/README_CHRONOLOGIE_QIN.md" class="file-chip" target="_blank">📝 README_CHRONOLOGIE_QIN.md</a>
+<a href="pack_aplus_promotion/26_experience_interactive_chronologie_qin/index.html" class="file-chip app-chip" target="_blank">► index.html (App Web)</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-d">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #27</span>
+          <span class="dossier-cat">Catégorie D</span>
+        </div>
+        <h3 class="dossier-title">Dossiers Documentation Medicale</h3>
+        <p class="dossier-desc">Dossiers de documentation médicale clinique comparant la progeria d'Élise Valmont à l'enzyme télomérase et à l'autoréparation cellulaire.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/27_dossiers_documentation_medicale/doc_clinique_progeria.jpg" class="file-chip" target="_blank">🖼️ doc_clinique_progeria.jpg</a>
+<a href="pack_aplus_promotion/27_dossiers_documentation_medicale/doc_enzyme_telomerase.jpg" class="file-chip" target="_blank">🖼️ doc_enzyme_telomerase.jpg</a>
+<a href="pack_aplus_promotion/27_dossiers_documentation_medicale/documentation_syndrome_progeria.md" class="file-chip" target="_blank">📝 documentation_syndrome_progeria.md</a>
+<a href="pack_aplus_promotion/27_dossiers_documentation_medicale/documentation_therapie_telomerase.md" class="file-chip" target="_blank">📝 documentation_therapie_telomerase.md</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-f">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #28</span>
+          <span class="dossier-cat">Catégorie F</span>
+        </div>
+        <h3 class="dossier-title">Cartes Parcours Et Experience Lecteur</h3>
+        <p class="dossier-desc">Visualisation en écran large du parcours lecteur en 4 actes et carte d'expérience techno-thriller exigence & rythme.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/28_cartes_parcours_et_experience_lecteur/carte_ambiance_techno_thriller.jpg" class="file-chip" target="_blank">🖼️ carte_ambiance_techno_thriller.jpg</a>
+<a href="pack_aplus_promotion/28_cartes_parcours_et_experience_lecteur/carte_experience_techno_thriller.md" class="file-chip" target="_blank">📝 carte_experience_techno_thriller.md</a>
+<a href="pack_aplus_promotion/28_cartes_parcours_et_experience_lecteur/experience_lecture_4_actes.jpg" class="file-chip" target="_blank">🖼️ experience_lecture_4_actes.jpg</a>
+<a href="pack_aplus_promotion/28_cartes_parcours_et_experience_lecteur/parcours_lecteur_4_etapes.md" class="file-chip" target="_blank">📝 parcours_lecteur_4_etapes.md</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-b">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #29</span>
+          <span class="dossier-cat">Catégorie B</span>
+        </div>
+        <h3 class="dossier-title">Bandeaux Double Atmosphere Climax</h3>
+        <p class="dossier-desc">Hero Banners split-screen en double atmosphère : dualité Tibet/Japon (Kunlun/Yonaguni) et dualité Mer/Glace (L'Odyssée/Le Valmont).</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/29_bandeaux_double_atmosphere_climax/bandeau_dual_mer_glace.jpg" class="file-chip" target="_blank">🖼️ bandeau_dual_mer_glace.jpg</a>
+<a href="pack_aplus_promotion/29_bandeaux_double_atmosphere_climax/bandeau_dual_tibet_japon.jpg" class="file-chip" target="_blank">🖼️ bandeau_dual_tibet_japon.jpg</a>
+<a href="pack_aplus_promotion/29_bandeaux_double_atmosphere_climax/bandeau_dualite_kunlun_yonaguni.md" class="file-chip" target="_blank">📝 bandeau_dualite_kunlun_yonaguni.md</a>
+<a href="pack_aplus_promotion/29_bandeaux_double_atmosphere_climax/bandeau_dualite_odyssee_vostok.md" class="file-chip" target="_blank">📝 bandeau_dualite_odyssee_vostok.md</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-b">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #02</span>
+          <span class="dossier-cat">Catégorie B</span>
+        </div>
+        <h3 class="dossier-title">Bandeaux Cinematographiques</h3>
+        <p class="dossier-desc">Bandeaux Hero en écran large représentant le Tibet en 221 av. J.-C. (massif du Kunlun) et le yacht L'Odyssée en pleine tempête méditerranéenne.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/2_bandeaux_cinematographiques/bandeau_hero_kunlun.md" class="file-chip" target="_blank">📝 bandeau_hero_kunlun.md</a>
+<a href="pack_aplus_promotion/2_bandeaux_cinematographiques/bandeau_hero_odyssee.md" class="file-chip" target="_blank">📝 bandeau_hero_odyssee.md</a>
+<a href="pack_aplus_promotion/2_bandeaux_cinematographiques/bandeau_odyssee_tempete.jpg" class="file-chip" target="_blank">🖼️ bandeau_odyssee_tempete.jpg</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-i">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #30</span>
+          <span class="dossier-cat">Catégorie I</span>
+        </div>
+        <h3 class="dossier-title">Experience Interactive Base Donnees Kdp</h3>
+        <p class="dossier-desc">Application HTML5 encyclopédie et base de données littéraire répertoriant les 5 lieux, navires et reliques du Gène de Qin.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/30_experience_interactive_base_donnees_kdp/README_ENCYCLOPEDIE.md" class="file-chip" target="_blank">📝 README_ENCYCLOPEDIE.md</a>
+<a href="pack_aplus_promotion/30_experience_interactive_base_donnees_kdp/index.html" class="file-chip app-chip" target="_blank">► index.html (App Web)</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-g">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #31</span>
+          <span class="dossier-cat">Catégorie G</span>
+        </div>
+        <h3 class="dossier-title">Dossiers Enquetes D Auteur Et Preuves</h3>
+        <p class="dossier-desc">Dossiers de recherche d'auteur montrant le bureau d'enquête historique sur le Tibet (221 av. J.-C.) et le sonar de Yonaguni (-30m).</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/31_dossiers_enquetes_d_auteur_et_preuves/dossier_recherche_expedition_qin_221bc.md" class="file-chip" target="_blank">📝 dossier_recherche_expedition_qin_221bc.md</a>
+<a href="pack_aplus_promotion/31_dossiers_enquetes_d_auteur_et_preuves/dossier_recherche_monument_yonaguni.md" class="file-chip" target="_blank">📝 dossier_recherche_monument_yonaguni.md</a>
+<a href="pack_aplus_promotion/31_dossiers_enquetes_d_auteur_et_preuves/enquete_auteur_sonar_yonaguni.jpg" class="file-chip" target="_blank">🖼️ enquete_auteur_sonar_yonaguni.jpg</a>
+<a href="pack_aplus_promotion/31_dossiers_enquetes_d_auteur_et_preuves/enquete_auteur_stele_tibet.jpg" class="file-chip" target="_blank">🖼️ enquete_auteur_stele_tibet.jpg</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-h">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #32</span>
+          <span class="dossier-cat">Catégorie H</span>
+        </div>
+        <h3 class="dossier-title">Cartes Dilemmes Et Choix Tactiques</h3>
+        <p class="dossier-desc">Cartes dilemmes posant au lecteur le prix de l'éternité (ADN vs sablier) et le sacrifice génétique de Léo (60 ans de sa vie en 3 jours).</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/32_cartes_dilemmes_et_choix_tactiques/carte_dilemme_ethique_immortalite.md" class="file-chip" target="_blank">📝 carte_dilemme_ethique_immortalite.md</a>
+<a href="pack_aplus_promotion/32_cartes_dilemmes_et_choix_tactiques/carte_dilemme_sacrifice_leo_valmont.md" class="file-chip" target="_blank">📝 carte_dilemme_sacrifice_leo_valmont.md</a>
+<a href="pack_aplus_promotion/32_cartes_dilemmes_et_choix_tactiques/dilemme_immortalite_adn.jpg" class="file-chip" target="_blank">🖼️ dilemme_immortalite_adn.jpg</a>
+<a href="pack_aplus_promotion/32_cartes_dilemmes_et_choix_tactiques/dilemme_sacrifice_seringue.jpg" class="file-chip" target="_blank">🖼️ dilemme_sacrifice_seringue.jpg</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-b">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #33</span>
+          <span class="dossier-cat">Catégorie B</span>
+        </div>
+        <h3 class="dossier-title">Bandeaux Compendiums Et Univers</h3>
+        <p class="dossier-desc">Compendiums en écran large réunissant les 4 théâtres de la saga en un panorama continu et la base géothermique antarctique de Vostok.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/33_bandeaux_compendiums_et_univers/bandeau_compendium_4_lieux_sacres.md" class="file-chip" target="_blank">📝 bandeau_compendium_4_lieux_sacres.md</a>
+<a href="pack_aplus_promotion/33_bandeaux_compendiums_et_univers/bandeau_compendium_fondation_veille_valmont.md" class="file-chip" target="_blank">📝 bandeau_compendium_fondation_veille_valmont.md</a>
+<a href="pack_aplus_promotion/33_bandeaux_compendiums_et_univers/compendium_4_monde_thriller.jpg" class="file-chip" target="_blank">🖼️ compendium_4_monde_thriller.jpg</a>
+<a href="pack_aplus_promotion/33_bandeaux_compendiums_et_univers/compendium_base_antarctique.jpg" class="file-chip" target="_blank">🖼️ compendium_base_antarctique.jpg</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-i">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #34</span>
+          <span class="dossier-cat">Catégorie I</span>
+        </div>
+        <h3 class="dossier-title">Experience Interactive Quiz Immortalite</h3>
+        <p class="dossier-desc">Application HTML5 de quiz psychologique et tactique en 3 étapes : « Quel héros êtes-vous face à l'immortalité ? »</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/34_experience_interactive_quiz_immortalite/README_QUIZ_IMMORTALITE.md" class="file-chip" target="_blank">📝 README_QUIZ_IMMORTALITE.md</a>
+<a href="pack_aplus_promotion/34_experience_interactive_quiz_immortalite/index.html" class="file-chip app-chip" target="_blank">► index.html (App Web)</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-c">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #35</span>
+          <span class="dossier-cat">Catégorie C</span>
+        </div>
+        <h3 class="dossier-title">Anatomie Des Scenes D Action</h3>
+        <p class="dossier-desc">Anatomies et déconstructions techniques de la mise en scène d'action pour la plongée de Yonaguni et la tempête sur L'Odyssée.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/35_anatomie_des_scenes_d_action/anatomie_odyssee_action.jpg" class="file-chip" target="_blank">🖼️ anatomie_odyssee_action.jpg</a>
+<a href="pack_aplus_promotion/35_anatomie_des_scenes_d_action/anatomie_scene_plongee_yonaguni.md" class="file-chip" target="_blank">📝 anatomie_scene_plongee_yonaguni.md</a>
+<a href="pack_aplus_promotion/35_anatomie_des_scenes_d_action/anatomie_scene_tempete_odyssee.md" class="file-chip" target="_blank">📝 anatomie_scene_tempete_odyssee.md</a>
+<a href="pack_aplus_promotion/35_anatomie_des_scenes_d_action/anatomie_yonaguni_action.jpg" class="file-chip" target="_blank">🖼️ anatomie_yonaguni_action.jpg</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-c">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #36</span>
+          <span class="dossier-cat">Catégorie C</span>
+        </div>
+        <h3 class="dossier-title">Matrices Realite Clinique Vs Fiction</h3>
+        <p class="dossier-desc">Matrices de vérité clinique comparant les faits réels vérifiés (progeria, stèle tibétaine 2025) aux extrapolations du techno-thriller.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/36_matrices_realite_clinique_vs_fiction/matrice_realite_inscription_tibet_221bc.md" class="file-chip" target="_blank">📝 matrice_realite_inscription_tibet_221bc.md</a>
+<a href="pack_aplus_promotion/36_matrices_realite_clinique_vs_fiction/matrice_realite_progeria_et_telomeres.md" class="file-chip" target="_blank">📝 matrice_realite_progeria_et_telomeres.md</a>
+<a href="pack_aplus_promotion/36_matrices_realite_clinique_vs_fiction/science_vs_fiction_adn.jpg" class="file-chip" target="_blank">🖼️ science_vs_fiction_adn.jpg</a>
+<a href="pack_aplus_promotion/36_matrices_realite_clinique_vs_fiction/science_vs_fiction_stele.jpg" class="file-chip" target="_blank">🖼️ science_vs_fiction_stele.jpg</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-b">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #37</span>
+          <span class="dossier-cat">Catégorie B</span>
+        </div>
+        <h3 class="dossier-title">Bandeaux Ambiance Nocturne Et Aurore</h3>
+        <p class="dossier-desc">Bandeaux grand format polaires et sous-marins : ciel étoilé antarctique sous aurore boréale et abysse indigo de la fosse de Ryukyu.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/37_bandeaux_ambiance_nocturne_et_aurore/bandeau_abysse_ryukyu.jpg" class="file-chip" target="_blank">🖼️ bandeau_abysse_ryukyu.jpg</a>
+<a href="pack_aplus_promotion/37_bandeaux_ambiance_nocturne_et_aurore/bandeau_aurore_antarctique.jpg" class="file-chip" target="_blank">🖼️ bandeau_aurore_antarctique.jpg</a>
+<a href="pack_aplus_promotion/37_bandeaux_ambiance_nocturne_et_aurore/bandeau_hero_abysse_ryukyu.md" class="file-chip" target="_blank">📝 bandeau_hero_abysse_ryukyu.md</a>
+<a href="pack_aplus_promotion/37_bandeaux_ambiance_nocturne_et_aurore/bandeau_hero_aurore_vostok.md" class="file-chip" target="_blank">📝 bandeau_hero_aurore_vostok.md</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-i">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #38</span>
+          <span class="dossier-cat">Catégorie I</span>
+        </div>
+        <h3 class="dossier-title">Experience Interactive Matrice Realite</h3>
+        <p class="dossier-desc">Application HTML5 Matrice de Vérité interactive distinguant la science réelle du techno-thriller sur 5 dossiers cliniques.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/38_experience_interactive_matrice_realite/README_MATRICE_REALITE.md" class="file-chip" target="_blank">📝 README_MATRICE_REALITE.md</a>
+<a href="pack_aplus_promotion/38_experience_interactive_matrice_realite/index.html" class="file-chip app-chip" target="_blank">► index.html (App Web)</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-h">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #39</span>
+          <span class="dossier-cat">Catégorie H</span>
+        </div>
+        <h3 class="dossier-title">Tropes Et Promesses De Lecture</h3>
+        <p class="dossier-desc">Cartes de tropes littéraires KDP pour identifier instantanément les promesses « Techno-Thriller Clinique » et « Archéo-SF Antique ».</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/39_tropes_et_promesses_de_lecture/trope_archeo_sf.jpg" class="file-chip" target="_blank">🖼️ trope_archeo_sf.jpg</a>
+<a href="pack_aplus_promotion/39_tropes_et_promesses_de_lecture/trope_archeo_sf_antiquite.md" class="file-chip" target="_blank">📝 trope_archeo_sf_antiquite.md</a>
+<a href="pack_aplus_promotion/39_tropes_et_promesses_de_lecture/trope_techno_thriller.jpg" class="file-chip" target="_blank">🖼️ trope_techno_thriller.jpg</a>
+<a href="pack_aplus_promotion/39_tropes_et_promesses_de_lecture/trope_techno_thriller_realiste.md" class="file-chip" target="_blank">📝 trope_techno_thriller_realiste.md</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-c">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #03</span>
+          <span class="dossier-cat">Catégorie C</span>
+        </div>
+        <h3 class="dossier-title">Cartes Et Infographies</h3>
+        <p class="dossier-desc">Carte archéo-géographique globale et tactique situant les 5 théâtres de l'intrigue (Tibet, Méditerranée, Bhoutan, Japon, Antarctique) sous classification Niveau Cosmos.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/3_cartes_et_infographies/carte_monde_anomalies.jpg" class="file-chip" target="_blank">🖼️ carte_monde_anomalies.jpg</a>
+<a href="pack_aplus_promotion/3_cartes_et_infographies/carte_monde_anomalies.md" class="file-chip" target="_blank">📝 carte_monde_anomalies.md</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-h">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #40</span>
+          <span class="dossier-cat">Catégorie H</span>
+        </div>
+        <h3 class="dossier-title">Citations Et Philosophie Du Roman</h3>
+        <p class="dossier-desc">Overlays de citations immersives sur le lac Léman (Léo : l'intensité de la vie) et sur le bureau de verre (Sterling : l'apothéose).</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/40_citations_et_philosophie_du_roman/citation_apotheose_de_sterling.md" class="file-chip" target="_blank">📝 citation_apotheose_de_sterling.md</a>
+<a href="pack_aplus_promotion/40_citations_et_philosophie_du_roman/citation_intensité_de_la_vie.md" class="file-chip" target="_blank">📝 citation_intensité_de_la_vie.md</a>
+<a href="pack_aplus_promotion/40_citations_et_philosophie_du_roman/citation_leo_intensite.jpg" class="file-chip" target="_blank">🖼️ citation_leo_intensite.jpg</a>
+<a href="pack_aplus_promotion/40_citations_et_philosophie_du_roman/citation_sterling_god.jpg" class="file-chip" target="_blank">🖼️ citation_sterling_god.jpg</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-b">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #41</span>
+          <span class="dossier-cat">Catégorie B</span>
+        </div>
+        <h3 class="dossier-title">Bandeaux Panoramiques Expeditions</h3>
+        <p class="dossier-desc">Bandeaux panoramiques sur les sommets du Kunlun en 221 av. J.-C. et sur la passerelle du brise-glace Le Valmont en Antarctique.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/41_bandeaux_panoramiques_expeditions/bandeau_hero_base_antarctique_vostok.md" class="file-chip" target="_blank">📝 bandeau_hero_base_antarctique_vostok.md</a>
+<a href="pack_aplus_promotion/41_bandeaux_panoramiques_expeditions/bandeau_hero_expedition_kunlun_221bc.md" class="file-chip" target="_blank">📝 bandeau_hero_expedition_kunlun_221bc.md</a>
+<a href="pack_aplus_promotion/41_bandeaux_panoramiques_expeditions/bandeau_panoramique_antarctique.jpg" class="file-chip" target="_blank">🖼️ bandeau_panoramique_antarctique.jpg</a>
+<a href="pack_aplus_promotion/41_bandeaux_panoramiques_expeditions/bandeau_panoramique_tibet.jpg" class="file-chip" target="_blank">🖼️ bandeau_panoramique_tibet.jpg</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-i">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #42</span>
+          <span class="dossier-cat">Catégorie I</span>
+        </div>
+        <h3 class="dossier-title">Experience Interactive Tropes Kdp</h3>
+        <p class="dossier-desc">Application HTML5 Sélecteur de Tropes et d'Intrigues guidant l'acheteur vers l'édition adaptée à ses goûts littéraires.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/42_experience_interactive_tropes_kdp/README_TROPES_KDP.md" class="file-chip" target="_blank">📝 README_TROPES_KDP.md</a>
+<a href="pack_aplus_promotion/42_experience_interactive_tropes_kdp/index.html" class="file-chip app-chip" target="_blank">► index.html (App Web)</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-e">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #43</span>
+          <span class="dossier-cat">Catégorie E</span>
+        </div>
+        <h3 class="dossier-title">Face A Face Et Confrontations Duales</h3>
+        <p class="dossier-desc">Confrontations duales split-screen : duel idéologique Léo vs Sterling (éthique vs hybris) et duel tactique Samira vs Anja Petrova.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/43_face_a_face_et_confrontations_duales/dual_leo_vs_sterling.jpg" class="file-chip" target="_blank">🖼️ dual_leo_vs_sterling.jpg</a>
+<a href="pack_aplus_promotion/43_face_a_face_et_confrontations_duales/dual_samira_vs_anja.jpg" class="file-chip" target="_blank">🖼️ dual_samira_vs_anja.jpg</a>
+<a href="pack_aplus_promotion/43_face_a_face_et_confrontations_duales/face_a_face_leo_vs_sterling.md" class="file-chip" target="_blank">📝 face_a_face_leo_vs_sterling.md</a>
+<a href="pack_aplus_promotion/43_face_a_face_et_confrontations_duales/face_a_face_samira_vs_anja.md" class="file-chip" target="_blank">📝 face_a_face_samira_vs_anja.md</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-g">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #44</span>
+          <span class="dossier-cat">Catégorie G</span>
+        </div>
+        <h3 class="dossier-title">Carnets D Ecriture Et Manuscrits Annotes</h3>
+        <p class="dossier-desc">Photographies muséales des carnets d'écriture en cuir de Franck Platon annotés sur l'incipit du Tibet et l'épilogue de Genève.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/44_carnets_d_ecriture_et_manuscrits_annotes/carnet_auteur_geneve_notes.jpg" class="file-chip" target="_blank">🖼️ carnet_auteur_geneve_notes.jpg</a>
+<a href="pack_aplus_promotion/44_carnets_d_ecriture_et_manuscrits_annotes/carnet_auteur_tibet_notes.jpg" class="file-chip" target="_blank">🖼️ carnet_auteur_tibet_notes.jpg</a>
+<a href="pack_aplus_promotion/44_carnets_d_ecriture_et_manuscrits_annotes/manuscrit_note_epilogue_geneve.md" class="file-chip" target="_blank">📝 manuscrit_note_epilogue_geneve.md</a>
+<a href="pack_aplus_promotion/44_carnets_d_ecriture_et_manuscrits_annotes/manuscrit_note_prologue_kunlun.md" class="file-chip" target="_blank">📝 manuscrit_note_prologue_kunlun.md</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-b">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #45</span>
+          <span class="dossier-cat">Catégorie B</span>
+        </div>
+        <h3 class="dossier-title">Bandeaux Hero Thriller Immersif</h3>
+        <p class="dossier-desc">Hero Banners immersives de nuit sur la mer Méditerranée (L'Odyssée) et sous-marine à -30m devant la pyramide de Yonaguni.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/45_bandeaux_hero_thriller_immersif/bandeau_hero_nuit_odyssee.md" class="file-chip" target="_blank">📝 bandeau_hero_nuit_odyssee.md</a>
+<a href="pack_aplus_promotion/45_bandeaux_hero_thriller_immersif/bandeau_hero_pyramide_yonaguni.md" class="file-chip" target="_blank">📝 bandeau_hero_pyramide_yonaguni.md</a>
+<a href="pack_aplus_promotion/45_bandeaux_hero_thriller_immersif/bandeau_odyssee_nuit_noire.jpg" class="file-chip" target="_blank">🖼️ bandeau_odyssee_nuit_noire.jpg</a>
+<a href="pack_aplus_promotion/45_bandeaux_hero_thriller_immersif/bandeau_yonaguni_plongeur.jpg" class="file-chip" target="_blank">🖼️ bandeau_yonaguni_plongeur.jpg</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-e">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #46</span>
+          <span class="dossier-cat">Catégorie E</span>
+        </div>
+        <h3 class="dossier-title">Experience Interactive Face A Face Kdp</h3>
+        <p class="dossier-desc">Application HTML5 Face-à-Face confrontant les arguments et citations sur 4 duels de protagonistes.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/46_experience_interactive_face_a_face_kdp/README_FACE_A_FACE.md" class="file-chip" target="_blank">📝 README_FACE_A_FACE.md</a>
+<a href="pack_aplus_promotion/46_experience_interactive_face_a_face_kdp/index.html" class="file-chip app-chip" target="_blank">► index.html (App Web)</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-c">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #47</span>
+          <span class="dossier-cat">Catégorie C</span>
+        </div>
+        <h3 class="dossier-title">Architecture Du Suspense Et Rythme</h3>
+        <p class="dossier-desc">Fiches d'architecture du suspense (20 chapitres sans temps mort / ligne de pouls ECG) et triple échelle de danger (cyan, ambre, rouge).</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/47_architecture_du_suspense_et_rythme/rythme_20_chapitres_kdp.jpg" class="file-chip" target="_blank">🖼️ rythme_20_chapitres_kdp.jpg</a>
+<a href="pack_aplus_promotion/47_architecture_du_suspense_et_rythme/structure_20_chapitres_sans_temps_mort.md" class="file-chip" target="_blank">📝 structure_20_chapitres_sans_temps_mort.md</a>
+<a href="pack_aplus_promotion/47_architecture_du_suspense_et_rythme/structure_triple_echelle_de_tension.md" class="file-chip" target="_blank">📝 structure_triple_echelle_de_tension.md</a>
+<a href="pack_aplus_promotion/47_architecture_du_suspense_et_rythme/tension_triple_echelle.jpg" class="file-chip" target="_blank">🖼️ tension_triple_echelle.jpg</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-h">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #48</span>
+          <span class="dossier-cat">Catégorie H</span>
+        </div>
+        <h3 class="dossier-title">Macro Details Et Focus Sensoriels</h3>
+        <p class="dossier-desc">Cartes macro sensorielles plongeant dans la matière : goutte épaisse d'obsidienne noire et cristaux de givre sur pierre sacrée du Tibet.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/48_macro_details_et_focus_sensoriels/focus_sensoriel_cristaux_de_glace_kunlun.md" class="file-chip" target="_blank">📝 focus_sensoriel_cristaux_de_glace_kunlun.md</a>
+<a href="pack_aplus_promotion/48_macro_details_et_focus_sensoriels/focus_sensoriel_goutte_obsidienne.md" class="file-chip" target="_blank">📝 focus_sensoriel_goutte_obsidienne.md</a>
+<a href="pack_aplus_promotion/48_macro_details_et_focus_sensoriels/macro_glace_tibet.jpg" class="file-chip" target="_blank">🖼️ macro_glace_tibet.jpg</a>
+<a href="pack_aplus_promotion/48_macro_details_et_focus_sensoriels/macro_goutte_obsidienne.jpg" class="file-chip" target="_blank">🖼️ macro_goutte_obsidienne.jpg</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-b">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #49</span>
+          <span class="dossier-cat">Catégorie B</span>
+        </div>
+        <h3 class="dossier-title">Bandeaux Hero Horizon Et Veilles</h3>
+        <p class="dossier-desc">Bandeaux horizon polaire sous le soleil de minuit en Antarctique (Le Valmont) et océanographique en Méditerranée à l'aube (L'Odyssée).</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/49_bandeaux_hero_horizon_et_veilles/bandeau_hero_horizon_antarctique_minuit.md" class="file-chip" target="_blank">📝 bandeau_hero_horizon_antarctique_minuit.md</a>
+<a href="pack_aplus_promotion/49_bandeaux_hero_horizon_et_veilles/bandeau_hero_horizon_mediterranee_aube.md" class="file-chip" target="_blank">📝 bandeau_hero_horizon_mediterranee_aube.md</a>
+<a href="pack_aplus_promotion/49_bandeaux_hero_horizon_et_veilles/bandeau_horizon_antarctique.jpg" class="file-chip" target="_blank">🖼️ bandeau_horizon_antarctique.jpg</a>
+<a href="pack_aplus_promotion/49_bandeaux_hero_horizon_et_veilles/bandeau_horizon_mediterranee.jpg" class="file-chip" target="_blank">🖼️ bandeau_horizon_mediterranee.jpg</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-d">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #04</span>
+          <span class="dossier-cat">Catégorie D</span>
+        </div>
+        <h3 class="dossier-title">Artbook Et Concept Art</h3>
+        <p class="dossier-desc">Planches d'artbook immersives et spécifications scientifiques sur la caverne de l'élixir au Kunlun et les ruines sous-marines de Yonaguni.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/4_artbook_et_concept_art/artbook_fiche_elixir.md" class="file-chip" target="_blank">📝 artbook_fiche_elixir.md</a>
+<a href="pack_aplus_promotion/4_artbook_et_concept_art/artbook_fiche_yonaguni.md" class="file-chip" target="_blank">📝 artbook_fiche_yonaguni.md</a>
+<a href="pack_aplus_promotion/4_artbook_et_concept_art/concept_art_elixir_obsidienne.jpg" class="file-chip" target="_blank">🖼️ concept_art_elixir_obsidienne.jpg</a>
+<a href="pack_aplus_promotion/4_artbook_et_concept_art/concept_art_yonaguni_abysse.jpg" class="file-chip" target="_blank">🖼️ concept_art_yonaguni_abysse.jpg</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-i">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #50</span>
+          <span class="dossier-cat">Catégorie I</span>
+        </div>
+        <h3 class="dossier-title">Experience Interactive Architecture Suspense</h3>
+        <p class="dossier-desc">Application HTML5 Moniteur d'Analyse du Rythme Narratif (pouls ECG : 95 BPM → 185 BPM) déconstruisant l'intrigue en 4 actes.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/50_experience_interactive_architecture_suspense/README_ARCHITECTURE_SUSPENSE.md" class="file-chip" target="_blank">📝 README_ARCHITECTURE_SUSPENSE.md</a>
+<a href="pack_aplus_promotion/50_experience_interactive_architecture_suspense/index.html" class="file-chip app-chip" target="_blank">► index.html (App Web)</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-a">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #51</span>
+          <span class="dossier-cat">Catégorie A</span>
+        </div>
+        <h3 class="dossier-title">Dossiers Symboles Et Mythologie Taoiste</h3>
+        <p class="dossier-desc">Fiches de mythologie taoïste : sceau impérial en bronze d'époque Qin orné d'un dragon et calligraphie antique YAO à l'encre obsidienne.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/51_dossiers_symboles_et_mythologie_taoiste/mythologie_taoiste_elixir_yao.md" class="file-chip" target="_blank">📝 mythologie_taoiste_elixir_yao.md</a>
+<a href="pack_aplus_promotion/51_dossiers_symboles_et_mythologie_taoiste/symbole_dragon_bronze.jpg" class="file-chip" target="_blank">🖼️ symbole_dragon_bronze.jpg</a>
+<a href="pack_aplus_promotion/51_dossiers_symboles_et_mythologie_taoiste/symbole_dragon_imperial_qin.md" class="file-chip" target="_blank">📝 symbole_dragon_imperial_qin.md</a>
+<a href="pack_aplus_promotion/51_dossiers_symboles_et_mythologie_taoiste/symbole_yao_calligraphie.jpg" class="file-chip" target="_blank">🖼️ symbole_yao_calligraphie.jpg</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-c">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #52</span>
+          <span class="dossier-cat">Catégorie C</span>
+        </div>
+        <h3 class="dossier-title">Cartes Engrenages Geopolitiques</h3>
+        <p class="dossier-desc">Échiquier géopolitique d'espionnage (FSB, Sterling Biotech, La Veille Valmont) et tampon rouge de classification « NIVEAU COSMOS ».</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/52_cartes_engrenages_geopolitiques/carte_classification_niveau_cosmos.md" class="file-chip" target="_blank">📝 carte_classification_niveau_cosmos.md</a>
+<a href="pack_aplus_promotion/52_cartes_engrenages_geopolitiques/carte_echiquier_fsb_dgse_sterling.md" class="file-chip" target="_blank">📝 carte_echiquier_fsb_dgse_sterling.md</a>
+<a href="pack_aplus_promotion/52_cartes_engrenages_geopolitiques/echiquier_tactique_kdp.jpg" class="file-chip" target="_blank">🖼️ echiquier_tactique_kdp.jpg</a>
+<a href="pack_aplus_promotion/52_cartes_engrenages_geopolitiques/tampon_niveau_cosmos.jpg" class="file-chip" target="_blank">🖼️ tampon_niveau_cosmos.jpg</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-b">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #53</span>
+          <span class="dossier-cat">Catégorie B</span>
+        </div>
+        <h3 class="dossier-title">Bandeaux Hero Emotions Et Sacrifice</h3>
+        <p class="dossier-desc">Bandeaux émotionnels : serment de Samira Belkacem seule sur la passerelle polaire et mémoire d'Élise sur le lac Léman au coucher du soleil.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/53_bandeaux_hero_emotions_et_sacrifice/bandeau_hero_memoire_d_elise.md" class="file-chip" target="_blank">📝 bandeau_hero_memoire_d_elise.md</a>
+<a href="pack_aplus_promotion/53_bandeaux_hero_emotions_et_sacrifice/bandeau_hero_serment_de_samira.md" class="file-chip" target="_blank">📝 bandeau_hero_serment_de_samira.md</a>
+<a href="pack_aplus_promotion/53_bandeaux_hero_emotions_et_sacrifice/bandeau_memoire_elise.jpg" class="file-chip" target="_blank">🖼️ bandeau_memoire_elise.jpg</a>
+<a href="pack_aplus_promotion/53_bandeaux_hero_emotions_et_sacrifice/bandeau_samira_serment.jpg" class="file-chip" target="_blank">🖼️ bandeau_samira_serment.jpg</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-i">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #54</span>
+          <span class="dossier-cat">Catégorie I</span>
+        </div>
+        <h3 class="dossier-title">Experience Interactive Echiquier Geopolitique</h3>
+        <p class="dossier-desc">Application HTML5 Échiquier Géopolitique permettant d'analyser les ressources et motivations secrètes des 4 factions en présence.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/54_experience_interactive_echiquier_geopolitique/README_ECHIQUIER.md" class="file-chip" target="_blank">📝 README_ECHIQUIER.md</a>
+<a href="pack_aplus_promotion/54_experience_interactive_echiquier_geopolitique/index.html" class="file-chip app-chip" target="_blank">► index.html (App Web)</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-f">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #05</span>
+          <span class="dossier-cat">Catégorie F</span>
+        </div>
+        <h3 class="dossier-title">Affiches Et Covers Collector</h3>
+        <p class="dossier-desc">Affiche de cinéma style blockbuster grand spectacle et mockup studio d'édition dorée reliée collector avec rappel des prix officiels.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/5_affiches_et_covers_collector/affiche_cinema_film.jpg" class="file-chip" target="_blank">🖼️ affiche_cinema_film.jpg</a>
+<a href="pack_aplus_promotion/5_affiches_et_covers_collector/affiche_cinema_le_gene_de_qin.md" class="file-chip" target="_blank">📝 affiche_cinema_le_gene_de_qin.md</a>
+<a href="pack_aplus_promotion/5_affiches_et_covers_collector/cover_collector_edition_deluxe.md" class="file-chip" target="_blank">📝 cover_collector_edition_deluxe.md</a>
+<a href="pack_aplus_promotion/5_affiches_et_covers_collector/cover_edition_collector_or.jpg" class="file-chip" target="_blank">🖼️ cover_edition_collector_or.jpg</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-i">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #06</span>
+          <span class="dossier-cat">Catégorie I</span>
+        </div>
+        <h3 class="dossier-title">Jeu Interactif Enquete Kdp</h3>
+        <p class="dossier-desc">Application HTML5 autonome « Terminal d'Enquête KDP — Niveau Cosmos » (Visual Novel) permettant au lecteur d'explorer les 4 dossiers classifiés.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/6_jeu_interactif_enquete_kdp/README_JEU_ENQUETE.md" class="file-chip" target="_blank">📝 README_JEU_ENQUETE.md</a>
+<a href="pack_aplus_promotion/6_jeu_interactif_enquete_kdp/index.html" class="file-chip app-chip" target="_blank">► index.html (App Web)</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-e">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #07</span>
+          <span class="dossier-cat">Catégorie E</span>
+        </div>
+        <h3 class="dossier-title">Fiches Personnages Tactiques</h3>
+        <p class="dossier-desc">Fiches de profils cliniques, militaires et géopolitiques pour les 4 protagonistes : Dr Léo Valmont, Samira Belkacem, Julian Sterling et la Générale Anja Petrova.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/7_fiches_personnages_tactiques/character_card_anja.jpg" class="file-chip" target="_blank">🖼️ character_card_anja.jpg</a>
+<a href="pack_aplus_promotion/7_fiches_personnages_tactiques/character_card_leo.jpg" class="file-chip" target="_blank">🖼️ character_card_leo.jpg</a>
+<a href="pack_aplus_promotion/7_fiches_personnages_tactiques/character_card_samira.jpg" class="file-chip" target="_blank">🖼️ character_card_samira.jpg</a>
+<a href="pack_aplus_promotion/7_fiches_personnages_tactiques/character_card_sterling.jpg" class="file-chip" target="_blank">🖼️ character_card_sterling.jpg</a>
+<a href="pack_aplus_promotion/7_fiches_personnages_tactiques/fiche_tactique_anja_petrova.md" class="file-chip" target="_blank">📝 fiche_tactique_anja_petrova.md</a>
+<a href="pack_aplus_promotion/7_fiches_personnages_tactiques/fiche_tactique_julian_sterling.md" class="file-chip" target="_blank">📝 fiche_tactique_julian_sterling.md</a>
+<a href="pack_aplus_promotion/7_fiches_personnages_tactiques/fiche_tactique_leo_valmont.md" class="file-chip" target="_blank">📝 fiche_tactique_leo_valmont.md</a>
+<a href="pack_aplus_promotion/7_fiches_personnages_tactiques/fiche_tactique_samira_belkacem.md" class="file-chip" target="_blank">📝 fiche_tactique_samira_belkacem.md</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-g">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #08</span>
+          <span class="dossier-cat">Catégorie G</span>
+        </div>
+        <h3 class="dossier-title">Artefacts Historiques Et Scientifiques</h3>
+        <p class="dossier-desc">Fiches techniques d'artefacts muséaux authentiques : la stèle rupestre tibétaine de 221 av. J.-C. et la seringue du sérum virale de Yonaguni.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/8_artefacts_historiques_et_scientifiques/artefact_seringue_serum.jpg" class="file-chip" target="_blank">🖼️ artefact_seringue_serum.jpg</a>
+<a href="pack_aplus_promotion/8_artefacts_historiques_et_scientifiques/artefact_seringue_yonaguni.md" class="file-chip" target="_blank">📝 artefact_seringue_yonaguni.md</a>
+<a href="pack_aplus_promotion/8_artefacts_historiques_et_scientifiques/artefact_stele_inscription.jpg" class="file-chip" target="_blank">🖼️ artefact_stele_inscription.jpg</a>
+<a href="pack_aplus_promotion/8_artefacts_historiques_et_scientifiques/artefact_stele_tibetaine_221bc.md" class="file-chip" target="_blank">📝 artefact_stele_tibetaine_221bc.md</a>
+
+      </div>
+    </div>
+
+    <div class="dossier-card" data-cat="cat-f">
+      <div>
+        <div class="dossier-header">
+          <span class="dossier-id">DOSSIER #09</span>
+          <span class="dossier-cat">Catégorie F</span>
+        </div>
+        <h3 class="dossier-title">Bandeaux Comparatifs Et Editions</h3>
+        <p class="dossier-desc">Bandeau studio comparant côte à côte vos 3 formats d'édition (Broché 10,90 €, Relié 24,99 €, Kindle 3,99 €) avec leurs arguments clés.</p>
+      </div>
+      <div class="files-list">
+        <a href="pack_aplus_promotion/9_bandeaux_comparatifs_et_editions/bandeau_comparatif_3_formats.md" class="file-chip" target="_blank">📝 bandeau_comparatif_3_formats.md</a>
+<a href="pack_aplus_promotion/9_bandeaux_comparatifs_et_editions/showcase_3_formats_kdp.jpg" class="file-chip" target="_blank">🖼️ showcase_3_formats_kdp.jpg</a>
+
+      </div>
+    </div>
+
+  </section>
+
+  <footer class="site-footer">
+    <h3 class="footer-title">LE GÈNE DE QIN — THRILLER SCIENTIFIQUE DE FRANCK PLATON</h3>
+    <p class="footer-desc">
+      © 2026 Franck PLATON — Tous droits réservés. Écosystème A+ KDP & Web propulsé par Arena.ai Agent Mode.
+    </p>
+    <a href="https://amzn.eu/d/04xCrOHY" target="_blank" rel="noopener noreferrer" class="btn-amazon-large">
+      COMMANDER SUR AMAZON (FR / BE / CH) ►
+    </a>
+  </footer>
+
+  <script>
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.dossier-card');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cat = btn.getAttribute('data-cat');
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        cards.forEach(card => {
+          if (cat === 'all' || card.getAttribute('data-cat') === cat) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
